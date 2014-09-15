@@ -2,9 +2,9 @@ single-table-inheritance
 ========================
 
 
-[![Build Status](https://travis-ci.org/Nanigans/single-table-inheritance.png?branch=master)](https://travis-ci.org/nanigans/single-table-inheritance)
-[![Total Downloads](https://poser.pugx.org/nanigans/single-table-inheritance/downloads.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
+[![Build Status](https://travis-ci.org/Nanigans/single-table-inheritance.png?branch=master)](https://travis-ci.org/Nanigans/single-table-inheritance)
 [![Latest Stable Version](https://poser.pugx.org/nanigans/single-table-inheritance/v/stable.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
+[![Total Downloads](https://poser.pugx.org/nanigans/single-table-inheritance/downloads.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
 [![Latest Unstable Version](https://poser.pugx.org/nanigans/single-table-inheritance/v/unstable.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
 [![License](https://poser.pugx.org/nanigans/single-table-inheritance/license.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
 
