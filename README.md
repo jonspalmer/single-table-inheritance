@@ -72,16 +72,16 @@ class Truck extends Vehicle
 
 The Single Table Inheritance Trait requires four properties to be declared in your classes:
 
-### `protected $table`
-Declared in the root model to define which database table to use to store all you classes.  
-*Note:* even if you are using the default for the root class (i.e. the 'vehicles' table for the `Vehicle` class) this is required so that subclasses inherit the same setting rather than defaulting to their own table name.
+ * `protected $table`  
+   Declared in the root model to define which database table to use to store all you classes.  
+   *Note:* even if you are using the default for the root class (i.e. the 'vehicles' table for the `Vehicle` class) this is required so that subclasses inherit the same setting rather than defaulting to their own table name.
 
-### `protected static $singleTableTypeField`
-Declared in the root model to define which database column to use to store the type of the class.
+ * `protected static $singleTableTypeField`  
+   Declared in the root model to define which database column to use to store the type of the class.
 
-### `protected static $singleTableSubclasses`
-Declared in the root model and each branch model to define which subclasses are part of the classes hierarchy.
+ * `protected static $singleTableSubclasses`  
+   Declared in the root model and each branch model to define which subclasses are part of the classes hierarchy.
 
-### `protected static $singleTableType`
-Declared in each concrete model define the string value for this class that will be stored in the `$singleTableTypeField` database column.  
-*Note:* if `$singleTableType` is defined then the value of `$singleTableSubclasses` is ignored. A model cannot have both a concrete type and subclasses.
+ * `protected static $singleTableType`  
+   Declared in each concrete model define the string value for this class that will be stored in the `$singleTableTypeField` database column.  
+   *Note:* if `$singleTableType` is defined then the value of `$singleTableSubclasses` is ignored. A model cannot have both a concrete type and subclasses.
