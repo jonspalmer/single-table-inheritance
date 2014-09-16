@@ -21,34 +21,7 @@ trait SingleTableInheritanceTrait {
 
     static::addGlobalScope(new SingleTableInheritanceScope);
 
-    static::saving(function($model) {
-      $modelClass = get_class($model);
-      $classType = property_exists($modelClass, 'singleTableType') ? $modelClass::$singleTableType : null;
-      if ($classType) {
-        $model->{static::$singleTableTypeField} = $classType;
-      } else {
-        // We'd like to be able to declare non-leaf classes in the hierarchy as abstract so they can't be instantiated and saved.
-        // However, Eloquent expects to instantiate classes at various points. Therefore throw an exception if we try to save
-        // and instance that doesn't have a type.
-        throw new SingleTableInheritanceException('Cannot save Single table inheritance model without declaring static property $singleTableType.');
-      }
-    });
-  }
-
-  /**
-   * Get the list of all types in the hierarchy.
-   * @return array the list of type strings
-   */
-  public function getSingleTableTypes() {
-    return array_keys(static::getSingleTableTypeMap());
-  }
-
-  /**
-   * Get the qualified name of the column used to store the class type.
-   * @return string the qualified column name
-   */
-  public function getQualifiedSingleTableTypeColumn() {
-    return $this->getTable() . '.' . static::$singleTableTypeField;
+    static::observe(new SingleTableInheritanceObserver());
   }
 
   /**
@@ -80,6 +53,35 @@ trait SingleTableInheritanceTrait {
     return $typeMap;
   }
 
+  /**
+   * Get the list of all types in the hierarchy.
+   * @return array the list of type strings
+   */
+  public function getSingleTableTypes() {
+    return array_keys(static::getSingleTableTypeMap());
+  }
+
+  /**
+   * Set the type value into the type field attribute
+   * @throws Exceptions\SingleTableInheritanceException
+   */
+  public function setSingleTableType() {
+    $modelClass = get_class($this);
+    $classType = property_exists($modelClass, 'singleTableType') ? $modelClass::$singleTableType : null;
+    if ($classType) {
+      $this->{static::$singleTableTypeField} = $classType;
+    } else {
+      // We'd like to be able to declare non-leaf classes in the hierarchy as abstract so they can't be instantiated and saved.
+      // However, Eloquent expects to instantiate classes at various points. Therefore throw an exception if we try to save
+      // and instance that doesn't have a type.
+      throw new SingleTableInheritanceException('Cannot save Single table inheritance model without declaring static property $singleTableType.');
+    }
+  }
+
+  /**
+   * Override the Eloquent method to construct a model of the type given by the value of singleTableTypeField
+   * @param array $attributes
+   */
   public function newFromBuilder($attributes = array()) {
     $typeField = static::$singleTableTypeField;
 
@@ -100,5 +102,13 @@ trait SingleTableInheritanceTrait {
     } else {
       throw new SingleTableInheritanceException("Cannot construct newFromBuilder without a value for $typeField");
     }
+  }
+
+  /**
+   * Get the qualified name of the column used to store the class type.
+   * @return string the qualified column name
+   */
+  public function getQualifiedSingleTableTypeColumn() {
+    return $this->getTable() . '.' . static::$singleTableTypeField;
   }
 } 
