@@ -13,7 +13,7 @@ Single Table Inheritance is a trait for Laravel 4.2+ Eloquent models that allows
  * Implemented as a Trait so that it plays nice with others, such as Laravel's `SoftDeletingTrait` or the excellent [Validating](https://github.com/dwightwatson/validating), without requiring a complicated mess of Eloquent Model subclasses.
  * Allow arbitrary class hierarchies not just two-level parent-child relationships. 
  * Customizable database column name that is used to store the model type.
- * Customizable string for the model type value stored in the datbase. (As opposed to focing the use of the fully qualified model class name.)
+ * Customizable string for the model type value stored in the database. (As opposed to forcing the use of the fully qualified model class name.)
  * Allow database rows that don't map to known model types. They will never be returned in queries.
 
 
@@ -83,5 +83,5 @@ The Single Table Inheritance Trait requires four properties to be declared in yo
    Declared in the root model and each branch model to define which subclasses are part of the classes hierarchy.
 
  * `protected static $singleTableType`  
-   Declared in each concrete model define the string value for this class that will be stored in the `$singleTableTypeField` database column.  
-   *Note:* if `$singleTableType` is defined then the value of `$singleTableSubclasses` is ignored. A model cannot have both a concrete type and subclasses.
+   Declared in each concrete model to define the string value for this class that will be stored in the `$singleTableTypeField` database column.
+

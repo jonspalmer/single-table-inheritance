@@ -42,9 +42,14 @@ trait SingleTableInheritanceTrait {
     if (property_exists($calledClass, 'singleTableType')) {
       $classType = static::$singleTableType;
       $typeMap[$classType] = $calledClass;
-    } else if (property_exists($calledClass, 'singleTableSubclasses')) {
-      foreach (static::$singleTableSubclasses as $subclass) {
-        $typeMap = array_merge($typeMap, $subclass::getSingleTableTypeMap());
+    }
+    if (property_exists($calledClass, 'singleTableSubclasses')) {
+      $subclasses = static::$singleTableSubclasses;
+      // prevent infinite recursion if the singleTableSubclasses is inherited
+      if (!in_array($calledClass, $subclasses)) {
+        foreach ($subclasses as $subclass) {
+          $typeMap = array_merge($typeMap, $subclass::getSingleTableTypeMap());
+        }
       }
     }
 

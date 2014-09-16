@@ -15,9 +15,11 @@ class SingleTableInheritanceTraitTest extends TestCase {
   public function testGetTypeMapOfRoot() {
 
     $expectedSubclassTypes = [
-      'car'   => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
-      'truck' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
-      'bike'  => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike'
+      'motorvehicle' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
+      'car'          => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
+      'truck'        => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
+      'bike'         => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike',
+
     ];
 
     $this->assertEquals($expectedSubclassTypes, Vehicle::getSingleTableTypeMap());
@@ -26,8 +28,9 @@ class SingleTableInheritanceTraitTest extends TestCase {
   public function testGetTypeMapOfChild() {
 
     $expectedSubclassTypes = [
-      'car'   => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
-      'truck' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
+      'motorvehicle' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
+      'car'          => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
+      'truck'        => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
     ];
 
     $this->assertEquals($expectedSubclassTypes, MotorVehicle::getSingleTableTypeMap());
@@ -44,6 +47,7 @@ class SingleTableInheritanceTraitTest extends TestCase {
 
   public function testQueryingOnRoot() {
 
+    (new MotorVehicle())->save();
     (new Car())->save();
     (new Truck())->save();
     (new Truck())->save();
@@ -51,15 +55,18 @@ class SingleTableInheritanceTraitTest extends TestCase {
 
     $results = Vehicle::all();
 
-    $this->assertEquals(4, count($results));
+    $this->assertEquals(5, count($results));
 
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car',   $results[0]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck', $results[1]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck', $results[2]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Bike',  $results[3]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle', $results[0]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car',          $results[1]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[2]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[3]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Bike',         $results[4]);
   }
 
   public function testQueryingOnChild() {
+
+    (new MotorVehicle())->save();
     (new Car())->save();
     (new Truck())->save();
     (new Truck())->save();
@@ -67,14 +74,17 @@ class SingleTableInheritanceTraitTest extends TestCase {
 
     $results = MotorVehicle::all();
 
-    $this->assertEquals(3, count($results));
+    $this->assertEquals(4, count($results));
 
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car',   $results[0]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck', $results[1]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck', $results[2]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle', $results[0]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car',          $results[1]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[2]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[3]);
   }
 
   public function testQueryingOnLeaf() {
+
+    (new MotorVehicle())->save();
     (new Car())->save();
     (new Truck())->save();
     (new Truck())->save();
@@ -109,8 +119,7 @@ class SingleTableInheritanceTraitTest extends TestCase {
 
     $this->setExpectedException('Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException');
 
-    $moto = new MotorVehicle();
-    $moto->save();
+    (new Vehicle())->save();
   }
 
 
@@ -130,6 +139,9 @@ class SingleTableInheritanceTraitTest extends TestCase {
       ]
     ]);
 
-    $this->assertEquals(1, count(Vehicle::all()));
+    $results = Vehicle::all();
+    $this->assertEquals(1, count($results));
+
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $results[0]);
   }
 } 
