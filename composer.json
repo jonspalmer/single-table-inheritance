@@ -1,7 +1,6 @@
 {
     "name": "nanigans/single-table-inheritance",
     "description": "Single Table Inheritance Trait",
-    "version": "0.1.0",
     "keywords": ["single", "table", "inheritance", "laravel", "eloquent", "model"],
     "license": "MIT",
     "authors": [
