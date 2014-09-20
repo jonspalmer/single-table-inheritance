@@ -1,33 +1,33 @@
 {
-    "name": "nanigans/single-table-inheritance",
-    "description": "Single Table Inheritance Trait",
-    "keywords": ["single", "table", "inheritance", "laravel", "eloquent", "model"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jon Palmer",
-            "email": "jpalmer@nanigans.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "illuminate/database": "~4.2.6",
-        "illuminate/support": "~4.2.6"
-    },
-    "require-dev": {
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "4.2.*",
-        "orchestra/testbench": "2.2.*"
-    },
-    "autoload": {
-        "psr-4": {
-            "Nanigans\\SingleTableInheritance\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Nanigans\\SingleTableInheritance\\Tests\\": "tests/"
-        }
-    },
-    "minimum-stability": "stable"
+  "name": "nanigans/single-table-inheritance",
+  "description": "Single Table Inheritance Trait",
+  "keywords": ["single", "table", "inheritance", "laravel", "eloquent", "model"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jon Palmer",
+      "email": "jpalmer@nanigans.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "illuminate/database": "~4.2.6",
+    "illuminate/support": "~4.2.6"
+  },
+  "require-dev": {
+    "mockery/mockery": "0.9.*",
+    "phpunit/phpunit": "4.2.*",
+    "orchestra/testbench": "2.2.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nanigans\\SingleTableInheritance\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Nanigans\\SingleTableInheritance\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable"
 }

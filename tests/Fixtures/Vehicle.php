@@ -27,7 +27,7 @@ class Vehicle extends Eloquent {
     return $this->belongsTo('Nanigans\SingleTableInheritance\Tests\Fixtures\User');
   }
 
-  // testing hook to manipulate protected static properties from a public context
+  // testing hooks to manipulate protected properties from a public context
   public static function withAllPersisted($persisted, $closure) {
     $oldPersisted = static::$allPersisted[get_called_class()];
 
@@ -41,5 +41,31 @@ class Vehicle extends Eloquent {
     }
     static::$allPersisted[get_called_class()] = $oldPersisted;
     return $result;
+  }
+
+  public static function withTypeField($typeField, $closure) {
+    $oldTypeField = static::$singleTableTypeField;
+    static::$singleTableTypeField = $typeField;
+
+    $result = null;
+    try {
+      $result = $closure();
+    } catch(Exception $e) {
+
+    }
+    static::$singleTableTypeField = $oldTypeField;
+    return $result;
+  }
+
+  public function setDates(array $dates) {
+    $this->dates = $dates;
+  }
+
+  public function setPrimaryKey($primaryKey) {
+    $this->primaryKey = $primaryKey;
+  }
+
+  public function setTable($table) {
+    $this->table = $table;
   }
 } 

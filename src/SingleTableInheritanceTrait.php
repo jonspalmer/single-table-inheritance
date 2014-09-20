@@ -163,7 +163,7 @@ trait SingleTableInheritanceTrait {
   public function newFromBuilder($attributes = array()) {
     $typeField = static::$singleTableTypeField;
 
-    $classType = $attributes->$typeField;
+    $classType = isset($attributes->$typeField) ? $attributes->$typeField : null;
 
     if ($classType) {
       $childTypes = static::getSingleTableTypeMap();
@@ -190,7 +190,7 @@ trait SingleTableInheritanceTrait {
     return $this->getTable() . '.' . static::$singleTableTypeField;
   }
 
-  protected function setFilteredAttributes(array $attributes) {
+  public function setFilteredAttributes(array $attributes) {
     $persistedAttributes = $this->getPersistedAttributes();
     if (empty($persistedAttributes)) {
       $filteredAttributes = $attributes;

@@ -9,81 +9,19 @@ use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Truck;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
 
-class SingleTableInheritanceTraitTest extends TestCase {
-
-  public function testGetTypeMapOfRoot() {
-
-    $expectedSubclassTypes = [
-      'motorvehicle' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
-      'car'          => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
-      'truck'        => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
-      'bike'         => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike',
-
-    ];
-
-    $this->assertEquals($expectedSubclassTypes, Vehicle::getSingleTableTypeMap());
-  }
-
-  public function testGetTypeMapOfChild() {
-
-    $expectedSubclassTypes = [
-      'motorvehicle' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
-      'car'          => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
-      'truck'        => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
-    ];
-
-    $this->assertEquals($expectedSubclassTypes, MotorVehicle::getSingleTableTypeMap());
-  }
-
-  public function testGetTypeMapOfLeaf() {
-
-    $expectedSubclassTypes = [
-      'car' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car'
-    ];
-
-    $this->assertEquals($expectedSubclassTypes, Car::getSingleTableTypeMap());
-  }
-
-  public function testGetAllPersistedOfRoot() {
-    $a = Vehicle::getAllPersistedAttributes();
-    sort($a);
-    $this->assertEquals(['color', 'owner_id'], $a);
-  }
-
-  public function testGetAllPersistedOfChild() {
-    $a = MotorVehicle::getAllPersistedAttributes();
-    sort($a);
-    $this->assertEquals(['color', 'fuel', 'owner_id'], $a);
-  }
-
-  public function testGetAllPersistedOfLeaf() {
-    $a = Car::getAllPersistedAttributes();
-    sort($a);
-    $this->assertEquals(['capacity', 'color', 'fuel', 'owner_id'], $a);
-  }
-
-  public function testGetPersistedOfRoot() {
-    $a = (new Vehicle)->getPersistedAttributes();
-    sort($a);
-    $this->assertEquals(['color', 'created_at', 'id', 'owner_id', 'type', 'updated_at'], $a);
-  }
-
-  public function testGetPersistedOfChild() {
-    $a = (new MotorVehicle)->getPersistedAttributes();
-    sort($a);
-    $this->assertEquals(['color', 'created_at', 'fuel', 'id', 'owner_id', 'type', 'updated_at'], $a);
-  }
-
-  public function testGetPersistedOfLeaf() {
-    $a = (new Car)->getPersistedAttributes();
-    sort($a);
-    $this->assertEquals(['capacity', 'color', 'created_at', 'fuel', 'id', 'owner_id', 'type', 'updated_at'], $a);
-  }
+/**
+ * Class SingleTableInheritanceTraitQueryTest
+ *
+ * A set of tests of the query methods added to by the SingleTableInheritanceTrait
+ * These tests are mostly duplicative of the model and static tests but they prove the integration
+ * of the Trait with key parts of the Eloquent ORM.
+ *
+ * @package Nanigans\SingleTableInheritance\Tests
+ */
+class SingleTableInheritanceTraitQueryTest extends TestCase {
 
   public function testQueryingOnRoot() {
-
     (new MotorVehicle())->save();
     (new Car())->save();
     (new Truck())->save();
@@ -102,7 +40,6 @@ class SingleTableInheritanceTraitTest extends TestCase {
   }
 
   public function testQueryingOnChild() {
-
     (new MotorVehicle())->save();
     (new Car())->save();
     (new Truck())->save();
@@ -152,14 +89,6 @@ class SingleTableInheritanceTraitTest extends TestCase {
     $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $vehicle);
   }
 
-  public function testSavingThrowsExceptionIfModelHasNoClassType() {
-
-    $this->setExpectedException('Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException');
-
-    (new Vehicle())->save();
-  }
-
-
   public function testIgnoreRowsWithMismatchingFieldType() {
     $now = Carbon::now();
 
@@ -201,7 +130,7 @@ class SingleTableInheritanceTraitTest extends TestCase {
     $this->assertNull($car->cruft);
   }
 
-  public function testPersistedAttributesCanIncludeBelongsTOForeignKeys() {
+  public function testPersistedAttributesCanIncludeBelongsToForeignKeys() {
     $now = Carbon::now();
 
     $userId = DB::table('users')->insert([
@@ -267,69 +196,5 @@ class SingleTableInheritanceTraitTest extends TestCase {
     ]);
 
     Bike::all()->first();
-  }
-
-  public function testOnlyPersistedAttributesAreSaved() {
-    $car = new Car;
-    $car->color = 'red';
-    $car->fuel = 'unleaded';
-    $car->cruft = 'red is my favorite';
-
-    $car->save();
-
-    $dbCar = DB::table('vehicles')->first();
-
-    $this->assertEquals($car->id, $dbCar->id);
-    $this->assertNull($dbCar->cruft);
-
-    $this->assertEquals('red', $dbCar->color);
-    $this->assertEquals('unleaded', $dbCar->fuel);
-  }
-
-  public function testBelongsToRelationForeignKeyIsSaved() {
-    $owner = new User;
-    $owner->name = 'Mickey Mouse';
-    $owner->save();
-
-    $car = new Car;
-    $car->color = 'red';
-    $car->fuel = 'unleaded';
-    $car->cruft = 'red is my favorite';
-    $car->owner()->associate($owner);
-    $car->save();
-
-    $dbCar = DB::table('vehicles')->first();
-
-    $this->assertEquals($car->id, $dbCar->id);
-    $this->assertEquals($owner->id, $dbCar->owner_id);
-  }
-
-  public function testAllAttributesAreSavedIfPersistedIsEmpty() {
-    $car = new Car;
-    $car->color = 'red';
-    $car->fuel = 'unleaded';
-    $car->cruft = 'red is my favorite';
-
-    Car::withAllPersisted([], function() use($car) {
-      $car->save();
-    });
-
-    $dbCar = DB::table('vehicles')->first();
-
-    $this->assertEquals($car->id, $dbCar->id);
-    $this->assertEquals('red is my favorite', $dbCar->cruft);
-
-    $this->assertEquals('red', $dbCar->color);
-    $this->assertEquals('unleaded', $dbCar->fuel);
-  }
-
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
-   */
-  public function testSaveThrowsExceptionIfConfigured() {
-    $bike = new Bike;
-    $bike->color = 'red';
-    $bike->cruft = 'red is my favorite';
-    $bike->save();
   }
 } 
