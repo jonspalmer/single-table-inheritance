@@ -9,6 +9,7 @@ use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Truck;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
 
 class SingleTableInheritanceTraitTest extends TestCase {
 
@@ -43,6 +44,42 @@ class SingleTableInheritanceTraitTest extends TestCase {
     ];
 
     $this->assertEquals($expectedSubclassTypes, Car::getSingleTableTypeMap());
+  }
+
+  public function testGetAllPersistedOfRoot() {
+    $a = Vehicle::getAllPersistedAttributes();
+    sort($a);
+    $this->assertEquals(['color', 'owner_id'], $a);
+  }
+
+  public function testGetAllPersistedOfChild() {
+    $a = MotorVehicle::getAllPersistedAttributes();
+    sort($a);
+    $this->assertEquals(['color', 'fuel', 'owner_id'], $a);
+  }
+
+  public function testGetAllPersistedOfLeaf() {
+    $a = Car::getAllPersistedAttributes();
+    sort($a);
+    $this->assertEquals(['capacity', 'color', 'fuel', 'owner_id'], $a);
+  }
+
+  public function testGetPersistedOfRoot() {
+    $a = (new Vehicle)->getPersistedAttributes();
+    sort($a);
+    $this->assertEquals(['color', 'created_at', 'id', 'owner_id', 'type', 'updated_at'], $a);
+  }
+
+  public function testGetPersistedOfChild() {
+    $a = (new MotorVehicle)->getPersistedAttributes();
+    sort($a);
+    $this->assertEquals(['color', 'created_at', 'fuel', 'id', 'owner_id', 'type', 'updated_at'], $a);
+  }
+
+  public function testGetPersistedOfLeaf() {
+    $a = (new Car)->getPersistedAttributes();
+    sort($a);
+    $this->assertEquals(['capacity', 'color', 'created_at', 'fuel', 'id', 'owner_id', 'type', 'updated_at'], $a);
   }
 
   public function testQueryingOnRoot() {
@@ -143,5 +180,156 @@ class SingleTableInheritanceTraitTest extends TestCase {
     $this->assertEquals(1, count($results));
 
     $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $results[0]);
+  }
+
+  public function testOnlyPersistedAttributesAreReturnedInQuery() {
+    $now = Carbon::now();
+
+    DB::table('vehicles')->insert([
+      [
+        'type'       => 'car',
+        'color'      => 'red',
+        'cruft'      => 'red is my favorite',
+        'owner_id'   => null,
+        'created_at' => $now,
+        'updated_at' => $now
+      ]
+    ]);
+
+    $car = Car::all()->first();
+
+    $this->assertNull($car->cruft);
+  }
+
+  public function testPersistedAttributesCanIncludeBelongsTOForeignKeys() {
+    $now = Carbon::now();
+
+    $userId = DB::table('users')->insert([
+      [
+        'name'       => 'Mickey Mouse',
+        'created_at' => $now,
+        'updated_at' => $now
+      ]
+    ]);
+
+    echo "userID: $userId";
+
+    DB::table('vehicles')->insert([
+      [
+        'type'       => 'car',
+        'color'      => 'red',
+        'owner_id'   => $userId,
+        'created_at' => $now,
+        'updated_at' => $now
+      ]
+    ]);
+
+    $car = Car::all()->first();
+
+    $this->assertEquals($userId, $car->owner()->first()->id);
+  }
+
+  public function testEmptyPersistedAttributesReturnsEverythingInQuery() {
+    $now = Carbon::now();
+
+    DB::table('vehicles')->insert([
+      [
+        'type'       => 'car',
+        'color'      => 'red',
+        'cruft'      => 'red is my favorite',
+        'owner_id'   => null,
+        'created_at' => $now,
+        'updated_at' => $now
+      ]
+    ]);
+
+    $car = Car::withAllPersisted([], function() {
+      return Car::all()->first();
+    });
+
+    $this->assertEquals('red is my favorite', $car->cruft);
+  }
+
+  /**
+   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   */
+  public function testQueryThrowsExceptionIfConfigured() {
+    $now = Carbon::now();
+
+    DB::table('vehicles')->insert([
+      [
+        'type'       => 'bike',
+        'color'      => 'red',
+        'cruft'      => 'red is my favorite',
+        'created_at' => $now,
+        'updated_at' => $now
+      ]
+    ]);
+
+    Bike::all()->first();
+  }
+
+  public function testOnlyPersistedAttributesAreSaved() {
+    $car = new Car;
+    $car->color = 'red';
+    $car->fuel = 'unleaded';
+    $car->cruft = 'red is my favorite';
+
+    $car->save();
+
+    $dbCar = DB::table('vehicles')->first();
+
+    $this->assertEquals($car->id, $dbCar->id);
+    $this->assertNull($dbCar->cruft);
+
+    $this->assertEquals('red', $dbCar->color);
+    $this->assertEquals('unleaded', $dbCar->fuel);
+  }
+
+  public function testBelongsToRelationForeignKeyIsSaved() {
+    $owner = new User;
+    $owner->name = 'Mickey Mouse';
+    $owner->save();
+
+    $car = new Car;
+    $car->color = 'red';
+    $car->fuel = 'unleaded';
+    $car->cruft = 'red is my favorite';
+    $car->owner()->associate($owner);
+    $car->save();
+
+    $dbCar = DB::table('vehicles')->first();
+
+    $this->assertEquals($car->id, $dbCar->id);
+    $this->assertEquals($owner->id, $dbCar->owner_id);
+  }
+
+  public function testAllAttributesAreSavedIfPersistedIsEmpty() {
+    $car = new Car;
+    $car->color = 'red';
+    $car->fuel = 'unleaded';
+    $car->cruft = 'red is my favorite';
+
+    Car::withAllPersisted([], function() use($car) {
+      $car->save();
+    });
+
+    $dbCar = DB::table('vehicles')->first();
+
+    $this->assertEquals($car->id, $dbCar->id);
+    $this->assertEquals('red is my favorite', $dbCar->cruft);
+
+    $this->assertEquals('red', $dbCar->color);
+    $this->assertEquals('unleaded', $dbCar->fuel);
+  }
+
+  /**
+   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   */
+  public function testSaveThrowsExceptionIfConfigured() {
+    $bike = new Bike;
+    $bike->color = 'red';
+    $bike->cruft = 'red is my favorite';
+    $bike->save();
   }
 } 

@@ -15,8 +15,12 @@ class CreateVehicleTable extends Migration {
     Schema::create('vehicles', function ($table){
       $table->increments('id');
       $table->string('type');
+      $table->string('color')->nullable();
+      $table->string('fuel')->nullable();
+      $table->integer('capacity')->nullable();
+      $table->string('cruft')->nullable();
+      $table->integer('owner_id')->nullable();
       $table->timestamps();
-      $table->softDeletes();
     });
   }
 
