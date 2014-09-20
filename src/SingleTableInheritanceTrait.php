@@ -7,19 +7,24 @@ use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttr
 
 trait SingleTableInheritanceTrait {
 
-  private $subclassTypes = null;
-
+  /**
+   * A cache of all the class types strings to class names.
+   * A map of model class name to map of type to subclass name.
+   *
+   * @var array
+   */
   protected static $singleTableTypeMap = [];
 
   /**
-   * All the persisted attributes associated to the given class, containing also parent attributes
+   * A cache of all the persisted attributes associated of each class including super class attributes.
+   * A map of model class name to attribute name array.
    *
    * @var array
    */
   protected static $allPersisted = [];
 
   /**
-   * Boot the trait. Adds an saving event to set the type field.
+   * Boot the trait.
    *
    * @return void
    */

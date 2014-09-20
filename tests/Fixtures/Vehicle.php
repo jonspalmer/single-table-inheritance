@@ -2,7 +2,6 @@
 
 namespace Nanigans\SingleTableInheritance\Tests\Fixtures;
 
-use Mockery\Matcher\Closure;
 use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use SebastianBergmann\Exporter\Exception;
