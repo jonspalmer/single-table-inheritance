@@ -141,8 +141,6 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
       ]
     ]);
 
-    echo "userID: $userId";
-
     DB::table('vehicles')->insert([
       [
         'type'       => 'car',
