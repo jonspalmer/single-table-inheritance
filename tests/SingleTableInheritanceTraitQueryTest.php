@@ -195,4 +195,14 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
 
     Bike::all()->first();
   }
+
+  public function testUpdateRemovesScope() {
+    $car = new Car();
+    $car->color = 'red';
+    $car->save();
+
+    $dbCar = Vehicle::where('color', 'red')->first();
+    $dbCar->color = 'green';
+    $this->assertTrue($dbCar->save()); // if the scope doesn't remove bindings this save will throw an exception.
+  }
 } 

@@ -18,9 +18,12 @@ class SingleTableInheritanceScope implements ScopeInterface {
 
     $subclassTypes = array_keys($model->getSingleTableTypeMap());
 
+    $query = $builder->getQuery();
+    $where_bindings = $query->getRawBindings()['where'];
     if (!empty($subclassTypes) ) {
       $builder->whereIn($model->getQualifiedSingleTableTypeColumn(), $subclassTypes);
     }
+    $where_bindings = $query->getRawBindings()['where'];
   }
 
   /**
@@ -34,14 +37,25 @@ class SingleTableInheritanceScope implements ScopeInterface {
 
     $query = $builder->getQuery();
 
+    $bindings = $query->getRawBindings()['where'];
     foreach ((array) $query->wheres as $key => $where) {
       // If the where clause is a single table inheritance in constraint, we will remove it from
       // the query and reset the keys on the wheres. This allows this developer to
-      // include deleted model in a relationship result set that is lazy loaded.
+      // include model in a relationship result set that is lazy loaded.
 
       if ($this->isSingleTableInheritanceConstraint($where, $column)) {
         unset($query->wheres[$key]);
 
+        // Assume (naively) that no other scope is binding the same values as the values of our in query.
+        // Not perfect but its about the best we can do without they query keeping better track of which bindings
+        // belong to which where clause.
+        foreach($where['values'] as $value) {
+          if (($binding_key = array_search($value, $bindings)) >= 0) {
+            unset($bindings[$binding_key]);
+          }
+        }
+
+        $query->setBindings(array_values($bindings));
         $query->wheres = array_values($query->wheres);
       }
     }
@@ -57,5 +71,20 @@ class SingleTableInheritanceScope implements ScopeInterface {
   protected function isSingleTableInheritanceConstraint(array $where, $column)
   {
     return $where['type'] == 'In' && $where['column'] == $column;
+  }
+
+  /**
+   * Determine if the given where clause is a single table inheritance constraint.
+   *
+   * @param  array   $where
+   * @param  string  $column
+   * @return bool
+   */
+  protected function isSingleTableInheritanceBinding(array $where, $binding)
+  {
+    return is_array($binding)
+    && array_key_exists('values', $where)
+    && count($where['values']) == count($binding)
+    && count(array_diff($where['values'], $binding)) == 0;
   }
 } 
