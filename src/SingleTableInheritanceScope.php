@@ -18,12 +18,9 @@ class SingleTableInheritanceScope implements ScopeInterface {
 
     $subclassTypes = array_keys($model->getSingleTableTypeMap());
 
-    $query = $builder->getQuery();
-    $where_bindings = $query->getRawBindings()['where'];
     if (!empty($subclassTypes) ) {
       $builder->whereIn($model->getQualifiedSingleTableTypeColumn(), $subclassTypes);
     }
-    $where_bindings = $query->getRawBindings()['where'];
   }
 
   /**
@@ -71,20 +68,5 @@ class SingleTableInheritanceScope implements ScopeInterface {
   protected function isSingleTableInheritanceConstraint(array $where, $column)
   {
     return $where['type'] == 'In' && $where['column'] == $column;
-  }
-
-  /**
-   * Determine if the given where clause is a single table inheritance constraint.
-   *
-   * @param  array   $where
-   * @param  string  $column
-   * @return bool
-   */
-  protected function isSingleTableInheritanceBinding(array $where, $binding)
-  {
-    return is_array($binding)
-    && array_key_exists('values', $where)
-    && count($where['values']) == count($binding)
-    && count(array_diff($where['values'], $binding)) == 0;
   }
 } 
