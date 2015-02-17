@@ -15,7 +15,7 @@ abstract class TestCase extends OrchestraTestCase {
     parent::setUp();
 
     // migrations only for testing purpose
-    $this->app['artisan']->call('migrate', array(
+    \Artisan::call('migrate', array(
       			'--path' => '../tests/migrations',
       			'--database' => 'testbench',
       		));
