@@ -1,12 +1,12 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Tests;
+namespace Phaza\SingleTableInheritance\Tests;
 
 use Illuminate\Support\Facades\DB;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Bike;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Car;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Vehicle;
+use Phaza\SingleTableInheritance\Tests\Fixtures\User;
 
 /**
  * Class SingleTableInheritanceTraitPersistenceTest
@@ -15,12 +15,12 @@ use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
  * These tests are mostly duplicative of the model and static tests but they prove the integration
  * of the Trait with key parts of the Eloquent ORM.
  *
- * @package Nanigans\SingleTableInheritance\Tests
+ * @package Phaza\SingleTableInheritance\Tests
  */
 class SingleTableInheritanceTraitPersistenceTest extends TestCase {
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
   public function testSavingThrowsExceptionIfModelHasNoClassType() {
     (new Vehicle())->save();
@@ -81,7 +81,7 @@ class SingleTableInheritanceTraitPersistenceTest extends TestCase {
   }
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
   public function testSaveThrowsExceptionForInvalidAttributesIfConfigured() {
     $bike = new Bike;

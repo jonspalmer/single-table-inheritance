@@ -1,18 +1,18 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Tests;
+namespace Phaza\SingleTableInheritance\Tests;
 
 use Illuminate\Support\Facades\DB;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Car;
+use Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Vehicle;
 
 /**
  * Class SingleTableInheritanceTraitStaticMethodsTest
  *
  * A set of tests of the static methods added to by the SingleTableInheritanceTrait
  *
- * @package Nanigans\SingleTableInheritance\Tests
+ * @package Phaza\SingleTableInheritance\Tests
  */
 class SingleTableInheritanceTraitStaticMethodsTest extends TestCase {
 
@@ -20,10 +20,10 @@ class SingleTableInheritanceTraitStaticMethodsTest extends TestCase {
 
   public function testGetTypeMapOfRoot() {
     $expectedSubclassTypes = [
-      'motorvehicle' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
-      'car'          => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
-      'truck'        => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
-      'bike'         => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike',
+      'motorvehicle' => 'Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
+      'car'          => 'Phaza\SingleTableInheritance\Tests\Fixtures\Car',
+      'truck'        => 'Phaza\SingleTableInheritance\Tests\Fixtures\Truck',
+      'bike'         => 'Phaza\SingleTableInheritance\Tests\Fixtures\Bike',
 
     ];
 
@@ -32,9 +32,9 @@ class SingleTableInheritanceTraitStaticMethodsTest extends TestCase {
 
   public function testGetTypeMapOfChild() {
     $expectedSubclassTypes = [
-      'motorvehicle' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
-      'car'          => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
-      'truck'        => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
+      'motorvehicle' => 'Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
+      'car'          => 'Phaza\SingleTableInheritance\Tests\Fixtures\Car',
+      'truck'        => 'Phaza\SingleTableInheritance\Tests\Fixtures\Truck',
     ];
 
     $this->assertEquals($expectedSubclassTypes, MotorVehicle::getSingleTableTypeMap());
@@ -43,7 +43,7 @@ class SingleTableInheritanceTraitStaticMethodsTest extends TestCase {
   public function testGetTypeMapOfLeaf() {
 
     $expectedSubclassTypes = [
-      'car' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car'
+      'car' => 'Phaza\SingleTableInheritance\Tests\Fixtures\Car'
     ];
 
     $this->assertEquals($expectedSubclassTypes, Car::getSingleTableTypeMap());

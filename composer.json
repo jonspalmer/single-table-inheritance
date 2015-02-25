@@ -1,5 +1,5 @@
 {
-  "name": "nanigans/single-table-inheritance",
+  "name": "phaza/single-table-inheritance",
   "description": "Single Table Inheritance Trait",
   "keywords": ["single", "table", "inheritance", "laravel", "eloquent", "model"],
   "license": "MIT",
@@ -7,26 +7,30 @@
     {
       "name": "Jon Palmer",
       "email": "jpalmer@nanigans.com"
+    },
+    {
+      "name": "Peter Haza",
+      "email": "peter.haza+github@gmail.com"
     }
   ],
   "require": {
     "php": ">=5.4.0",
-    "illuminate/database": "~4.2.6",
-    "illuminate/support": "~4.2.6"
+    "illuminate/database": ">=5.0.6",
+    "illuminate/support": ">=5.0.6"
   },
   "require-dev": {
     "mockery/mockery": "0.9.*",
-    "phpunit/phpunit": "4.2.*",
-    "orchestra/testbench": "2.2.*"
+    "phpunit/phpunit": "4.5.*",
+    "orchestra/testbench": "3.0.*"
   },
   "autoload": {
     "psr-4": {
-      "Nanigans\\SingleTableInheritance\\": "src/"
+      "Phaza\\SingleTableInheritance\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Nanigans\\SingleTableInheritance\\Tests\\": "tests/"
+      "Phaza\\SingleTableInheritance\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "stable"

@@ -1,8 +1,9 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance;
+namespace Phaza\SingleTableInheritance;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ScopeInterface;
 
 class SingleTableInheritanceScope implements ScopeInterface {
@@ -13,9 +14,7 @@ class SingleTableInheritanceScope implements ScopeInterface {
    * @param  \Illuminate\Database\Eloquent\Builder  $builder
    * @return void
    */
-  public function apply(Builder $builder) {
-    $model = $builder->getModel();
-
+  public function apply(Builder $builder, Model $model) {
     $subclassTypes = array_keys($model->getSingleTableTypeMap());
 
     if (!empty($subclassTypes) ) {
@@ -29,8 +28,8 @@ class SingleTableInheritanceScope implements ScopeInterface {
    * @param  \Illuminate\Database\Eloquent\Builder  $builder
    * @return void
    */
-  public function remove(Builder $builder) {
-    $column = $builder->getModel()->getQualifiedSingleTableTypeColumn();
+  public function remove(Builder $builder, Model $model) {
+    $column = $model->getQualifiedSingleTableTypeColumn();
 
     $query = $builder->getQuery();
 

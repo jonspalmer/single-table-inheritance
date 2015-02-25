@@ -1,6 +1,6 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Tests\Fixtures;
+namespace Phaza\SingleTableInheritance\Tests\Fixtures;
 
 class MotorVehicle extends Vehicle {
 
@@ -9,7 +9,7 @@ class MotorVehicle extends Vehicle {
   protected static $persisted = ['fuel'];
 
   protected static $singleTableSubclasses = [
-    'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
-    'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck'
+    'Phaza\SingleTableInheritance\Tests\Fixtures\Car',
+    'Phaza\SingleTableInheritance\Tests\Fixtures\Truck'
   ];
 }
