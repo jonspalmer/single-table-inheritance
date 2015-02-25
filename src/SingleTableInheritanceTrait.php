@@ -1,9 +1,9 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance;
+namespace Phaza\SingleTableInheritance;
 
-use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
-use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException;
+use Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
+use Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException;
 
 trait SingleTableInheritanceTrait {
 

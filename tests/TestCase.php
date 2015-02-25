@@ -1,6 +1,6 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Tests;
+namespace Phaza\SingleTableInheritance\Tests;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
@@ -28,11 +28,11 @@ abstract class TestCase extends OrchestraTestCase {
     // https://github.com/laravel/framework/issues/1181#issuecomment-51627220
 
     $models = [
-      'Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle',
-      'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
-      'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
-      'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
-      'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike'
+      'Phaza\SingleTableInheritance\Tests\Fixtures\Vehicle',
+      'Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
+      'Phaza\SingleTableInheritance\Tests\Fixtures\Car',
+      'Phaza\SingleTableInheritance\Tests\Fixtures\Truck',
+      'Phaza\SingleTableInheritance\Tests\Fixtures\Bike'
     ];
     // Reset each model event listeners.
     foreach ($models as $model) {

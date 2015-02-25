@@ -1,8 +1,8 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Tests\Fixtures;
+namespace Phaza\SingleTableInheritance\Tests\Fixtures;
 
-use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
+use Phaza\SingleTableInheritance\SingleTableInheritanceTrait;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use SebastianBergmann\Exporter\Exception;
 
@@ -17,13 +17,13 @@ class Vehicle extends Eloquent {
   protected static $persisted = ['color', 'owner_id'];
 
   protected static $singleTableSubclasses = [
-    'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
-    'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike'
+    'Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
+    'Phaza\SingleTableInheritance\Tests\Fixtures\Bike'
   ];
 
   public function owner()
   {
-    return $this->belongsTo('Nanigans\SingleTableInheritance\Tests\Fixtures\User');
+    return $this->belongsTo('Phaza\SingleTableInheritance\Tests\Fixtures\User');
   }
 
   // testing hooks to manipulate protected properties from a public context

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance;
+namespace Phaza\SingleTableInheritance;
 
 class SingleTableInheritanceObserver {
 

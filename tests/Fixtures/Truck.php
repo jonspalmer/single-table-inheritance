@@ -1,6 +1,6 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Tests\Fixtures;
+namespace Phaza\SingleTableInheritance\Tests\Fixtures;
 
 class Truck extends MotorVehicle {
 

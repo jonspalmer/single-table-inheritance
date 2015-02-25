@@ -1,14 +1,14 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Tests;
+namespace Phaza\SingleTableInheritance\Tests;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Truck;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Bike;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Car;
+use Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Truck;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Vehicle;
 
 /**
  * Class SingleTableInheritanceTraitQueryTest
@@ -17,7 +17,7 @@ use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
  * These tests are mostly duplicative of the model and static tests but they prove the integration
  * of the Trait with key parts of the Eloquent ORM.
  *
- * @package Nanigans\SingleTableInheritance\Tests
+ * @package Phaza\SingleTableInheritance\Tests
  */
 class SingleTableInheritanceTraitQueryTest extends TestCase {
 
@@ -32,11 +32,11 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
 
     $this->assertEquals(5, count($results));
 
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle', $results[0]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car',          $results[1]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[2]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[3]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Bike',         $results[4]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle', $results[0]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Car',          $results[1]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Truck',        $results[2]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Truck',        $results[3]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Bike',         $results[4]);
   }
 
   public function testQueryingOnChild() {
@@ -50,10 +50,10 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
 
     $this->assertEquals(4, count($results));
 
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle', $results[0]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car',          $results[1]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[2]);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[3]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle', $results[0]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Car',          $results[1]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Truck',        $results[2]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Truck',        $results[3]);
   }
 
   public function testQueryingOnLeaf() {
@@ -68,7 +68,7 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
 
     $this->assertEquals(1, count($results));
 
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car',   $results[0]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Car',   $results[0]);
   }
 
   public function testFindHasToMatchType() {
@@ -86,7 +86,7 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
 
     $vehicle = Vehicle::find($carId);
     $this->assertNotNull($vehicle);
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $vehicle);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Car', $vehicle);
   }
 
   public function testIgnoreRowsWithMismatchingFieldType() {
@@ -108,7 +108,7 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
     $results = Vehicle::all();
     $this->assertEquals(1, count($results));
 
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $results[0]);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Car', $results[0]);
   }
 
   public function testOnlyPersistedAttributesAreReturnedInQuery() {
@@ -178,7 +178,7 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
   }
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
   public function testQueryThrowsExceptionIfConfigured() {
     $now = Carbon::now();

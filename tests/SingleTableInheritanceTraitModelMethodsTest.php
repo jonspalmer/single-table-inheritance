@@ -1,19 +1,19 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Tests;
+namespace Phaza\SingleTableInheritance\Tests;
 
 use Illuminate\Support\Facades\DB;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
-use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Bike;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Car;
+use Phaza\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
+use Phaza\SingleTableInheritance\Tests\Fixtures\Vehicle;
 
 /**
  * Class SingleTableInheritanceTraitModelMethodsTest
  *
  * A set of tests of the model methods added to by the SingleTableInheritanceTrait
  *
- * @package Nanigans\SingleTableInheritance\Tests
+ * @package Phaza\SingleTableInheritance\Tests
  */
 class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
 
@@ -104,7 +104,7 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
   }
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
   public function testSetSingleTableTypeThrowExceptionIfTableTypeIsUnset() {
     (new Vehicle)->setSingleTableType();
@@ -124,7 +124,7 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
   }
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException
    */
   public function testFilterPersistedAttributesThrowsIfConfigured() {
     $bike = new Bike;
@@ -134,7 +134,7 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
   }
 
   public function testFilterPersistedAttributesDoesNothingIfPersistedIsEmpty() {
-    $car = \Mockery::mock('Nanigans\SingleTableInheritance\Tests\Fixtures\Car')->makePartial();
+    $car = \Mockery::mock('Phaza\SingleTableInheritance\Tests\Fixtures\Car')->makePartial();
 
     $car->shouldReceive('getPersistedAttributes')
       ->once()
@@ -159,7 +159,7 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
   }
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException
    */
   public function testSetFilteredAttributeshrowsIfConfigured() {
     $bike = new Bike;
@@ -167,7 +167,7 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
   }
 
   public function testSetFilteredAttributesDoesNothingIfPersistedIsEmpty() {
-    $car = \Mockery::mock('Nanigans\SingleTableInheritance\Tests\Fixtures\Car')->makePartial();
+    $car = \Mockery::mock('Phaza\SingleTableInheritance\Tests\Fixtures\Car')->makePartial();
 
     $car->shouldReceive('getPersistedAttributes')
       ->once()
@@ -191,14 +191,14 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
 
     $newVehicle = $vehicle->newFromBuilder($attr);
 
-    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $newVehicle);
+    $this->assertInstanceOf('Phaza\SingleTableInheritance\Tests\Fixtures\Car', $newVehicle);
     $this->assertEquals('diesel', $newVehicle->fuel);
     $this->assertEquals('red', $newVehicle->color);
     $this->assertNull($newVehicle->cruft);
   }
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
   public function testNewFromBuilderThrowsIfClassTypeIsUndefined() {
     $vehicle = new Vehicle;
@@ -207,7 +207,7 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
   }
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
   public function testNewFromBuilderThrowsIfClassTypeIsNull() {
     $vehicle = new Vehicle;
@@ -217,7 +217,7 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
   }
 
   /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
+   * @expectedException \Phaza\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
   public function testNewFromBuilderThrowsIfClassTypeIsUnrecognized() {
     $vehicle = new Vehicle;

@@ -1,15 +1,16 @@
 Single Table Inheritance
 ========================
 
+# Credit
 
-[![Build Status](https://travis-ci.org/Nanigans/single-table-inheritance.png?branch=master)](https://travis-ci.org/Nanigans/single-table-inheritance)
-[![Latest Stable Version](https://poser.pugx.org/nanigans/single-table-inheritance/v/stable.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
-[![Total Downloads](https://poser.pugx.org/nanigans/single-table-inheritance/downloads.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
-[![Latest Unstable Version](https://poser.pugx.org/nanigans/single-table-inheritance/v/unstable.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
-[![License](https://poser.pugx.org/nanigans/single-table-inheritance/license.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
-[![Dependency Status](https://www.versioneye.com/php/nanigans:single-table-inheritance/badge.svg)](https://www.versioneye.com/php/nanigans:single-table-inheritance)
+This code is a fork of [Nanigans/single-table-inheritance](https://github.com/Nanigans/single-table-inheritance). I've only updated it to work with Laravel 5
 
-Single Table Inheritance is a trait for Laravel 4.2+ Eloquent models that allows multiple models to be stored in the same database table. We support a few key featres
+[![Latest Stable Version](https://poser.pugx.org/phaza/single-table-inheritance/v/stable.svg)](https://packagist.org/packages/phaza/single-table-inheritance)
+[![Total Downloads](https://poser.pugx.org/phaza/single-table-inheritance/downloads.svg)](https://packagist.org/packages/phaza/single-table-inheritance)
+[![Latest Unstable Version](https://poser.pugx.org/phaza/single-table-inheritance/v/unstable.svg)](https://packagist.org/packages/phaza/single-table-inheritance)
+[![License](https://poser.pugx.org/phaza/single-table-inheritance/license.svg)](https://packagist.org/packages/phaza/single-table-inheritance)
+
+Single Table Inheritance is a trait for Laravel 5.0.6+ Eloquent models that allows multiple models to be stored in the same database table. We support a few key featres
 
  * Implemented as a Trait so that it plays nice with others, such as Laravel's `SoftDeletingTrait` or the excellent [Validating](https://github.com/dwightwatson/validating), without requiring a complicated mess of Eloquent Model subclasses.
  * Allow arbitrary class hierarchies not just two-level parent-child relationships. 
@@ -23,13 +24,13 @@ Single Table Inheritance is a trait for Laravel 4.2+ Eloquent models that allows
 Simply add the package to your `composer.json` file and run `composer update`.
 
 ```
-"nanigans/single-table-inheritance": "0.3.*"
+"phaza/single-table-inheritance": "1.0.*"
 ```
 
 Or go to your project directory where the `composer.json` file is located and type:
 
 ```sh
-composer require "nanigans/single-table-inheritance:0.3.*"
+composer require "phaza/single-table-inheritance:1.0.*"
 ```
 
 # Overview
@@ -37,7 +38,7 @@ composer require "nanigans/single-table-inheritance:0.3.*"
 Getting started with the Single Tabe Inheritance Trait is simple. Add the constraint and add a few properties to your models. A complete example of a `Vehicle` super class with two subclasses `Truck` and `Car` is given by 
 
 ```php
-use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
+use Phaza\SingleTableInheritance\SingleTableInheritanceTrait;
 
 class Vehicle extends Eloquent
 {
@@ -83,7 +84,7 @@ In each concrete class set the `protected static` property `$singleTableType` to
 It's not uncommon to have many levels in your class hierarchy. Its easy to define that structure by declaring subclasses at each level. For example suppose you have a Vehicle super class with two subclasses Bike and MotorVehicle. MotorVehicle in trun has two subclasses Car and Truck. You would define the classes like this:
 
 ```php
-use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
+use Phaza\SingleTableInheritance\SingleTableInheritanceTrait;
 
 class Vehicle extends Eloquent
 {
@@ -171,15 +172,3 @@ BY default the SingleTableINheritanceTrait will handle invalid attributes silent
  */
 protected static $throwInvalidAttributeExceptions = true;
 ```
-
-# Inspiration 
-
-We've choosen a very particualr implementaton to support single table inheritence. However, others have written code and articles around a general approach that proved influential.
-
-First, Mark Smith has an excellent article [Single Table Inheritance in Laravel 4](http://www.colorfultyping.com/single-table-inheritance-in-laravel-4/) amognst other things is intorduces the importance of querries returning objects of the correct type. Second, Jacopo Beschi wrote and extension of Eloquent's `Model`, [Laravel-Single-Table-Inheritance](https://github.com/intrip/laravel-single-table-inheritance)`, that introduces the importance of being able to define which attributes each model persists.
-
-The use of Traits was heavy influence by the Eloquent's `SoftDeletingTrait` and the excellent [Validating Trait](https://github.com/dwightwatson/validating). 
-
-
-
-

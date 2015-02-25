@@ -1,6 +1,6 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance\Exceptions;
+namespace Phaza\SingleTableInheritance\Exceptions;
 
 class SingleTableInheritanceException extends \Exception {
 

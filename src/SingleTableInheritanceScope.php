@@ -1,6 +1,6 @@
 <?php
 
-namespace Nanigans\SingleTableInheritance;
+namespace Phaza\SingleTableInheritance;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
