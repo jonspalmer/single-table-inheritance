@@ -165,7 +165,7 @@ trait SingleTableInheritanceTrait {
    * Override the Eloquent method to construct a model of the type given by the value of singleTableTypeField
    * @param array $attributes
    */
-  public function newFromBuilder($attributes = array()) {
+  public function newFromBuilder($attributes = array(), $connection = null) {
     $typeField = static::$singleTableTypeField;
 
     $classType = isset($attributes->$typeField) ? $attributes->$typeField : null;
@@ -176,6 +176,7 @@ trait SingleTableInheritanceTrait {
         $class = $childTypes[$classType];
         $instance = (new $class)->newInstance([], true);
         $instance->setFilteredAttributes((array) $attributes);
+        $instance->setConnection($connection ?: $this->connection);
         return $instance;
       } else {
         // Throwing either of the exceptions suggests something has gone very wrong with the Global Scope
