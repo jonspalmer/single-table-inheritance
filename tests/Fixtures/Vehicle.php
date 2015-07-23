@@ -42,17 +42,19 @@ class Vehicle extends Eloquent {
     return $result;
   }
 
-  public static function withTypeField($typeField, $closure) {
+  public static function withTypeField($typeField, $closure)
+  {
     $oldTypeField = static::$singleTableTypeField;
     static::$singleTableTypeField = $typeField;
 
     $result = null;
     try {
       $result = $closure();
-    } catch(Exception $e) {
+    } catch (Exception $e) {
 
     }
     static::$singleTableTypeField = $oldTypeField;
+
     return $result;
   }
 
@@ -67,4 +69,4 @@ class Vehicle extends Eloquent {
   public function setTable($table) {
     $this->table = $table;
   }
-} 
+}
