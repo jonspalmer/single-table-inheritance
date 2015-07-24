@@ -5,6 +5,7 @@ namespace Nanigans\SingleTableInheritance\Tests;
 use Illuminate\Support\Facades\DB;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\Taxi;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
 
@@ -80,6 +81,23 @@ class SingleTableInheritanceTraitPersistenceTest extends TestCase {
     $this->assertEquals('unleaded', $dbCar->fuel);
   }
 
+  public function testSaveAttributesWhereSingleTableInheritanceTypeHasAnAccessor(){
+    $taxi = new Taxi;
+    $taxi->color = 'yellow';
+    $taxi->fuel = 'diesel';
+    $taxi->cruft = 'yellow is my favorite';
+    $taxi->save();
+
+    $dbTaxi = DB::table('vehicles')->first();
+
+    $this->assertEquals($taxi->id, $dbTaxi->id);
+
+    $this->assertEquals('yellow', $dbTaxi->color);
+    $this->assertEquals('diesel', $dbTaxi->fuel);
+
+    $this->assertEquals('Taxi', $dbTaxi->type);
+  }
+
   /**
    * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
@@ -89,4 +107,4 @@ class SingleTableInheritanceTraitPersistenceTest extends TestCase {
     $bike->cruft = 'red is my favorite';
     $bike->save();
   }
-} 
+}

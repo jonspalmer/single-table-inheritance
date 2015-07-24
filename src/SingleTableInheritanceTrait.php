@@ -152,7 +152,11 @@ trait SingleTableInheritanceTrait {
     $modelClass = get_class($this);
     $classType = property_exists($modelClass, 'singleTableType') ? $modelClass::$singleTableType : null;
     if ($classType) {
-      $this->{static::$singleTableTypeField} = $classType;
+      if ($this->hasGetMutator(static::$singleTableTypeField)) {
+        $this->{static::$singleTableTypeField} = $this->mutateAttribute(static::$singleTableTypeField, $classType);
+      } else {
+        $this->{static::$singleTableTypeField} = $classType;
+      }
     } else {
       // We'd like to be able to declare non-leaf classes in the hierarchy as abstract so they can't be instantiated and saved.
       // However, Eloquent expects to instantiate classes at various points. Therefore throw an exception if we try to save

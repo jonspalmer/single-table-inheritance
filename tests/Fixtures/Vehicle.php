@@ -21,8 +21,7 @@ class Vehicle extends Eloquent {
     'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike'
   ];
 
-  public function owner()
-  {
+  public function owner() {
     return $this->belongsTo('Nanigans\SingleTableInheritance\Tests\Fixtures\User');
   }
 
@@ -35,7 +34,7 @@ class Vehicle extends Eloquent {
     $result = null;
     try {
       $result = $closure();
-    } catch(Exception $e) {
+    } catch (Exception $e) {
 
     }
     static::$allPersisted[get_called_class()] = $oldPersisted;
@@ -49,10 +48,11 @@ class Vehicle extends Eloquent {
     $result = null;
     try {
       $result = $closure();
-    } catch(Exception $e) {
+    } catch (Exception $e) {
 
     }
     static::$singleTableTypeField = $oldTypeField;
+
     return $result;
   }
 
@@ -67,4 +67,4 @@ class Vehicle extends Eloquent {
   public function setTable($table) {
     $this->table = $table;
   }
-} 
+}
