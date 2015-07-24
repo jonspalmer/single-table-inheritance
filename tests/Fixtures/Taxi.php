@@ -10,7 +10,7 @@ class Taxi extends MotorVehicle {
     $this->attributes['type'] = $value;
   }
 
-  public function GetTypeAttribute($value){
+  public function getTypeAttribute($value){
     return ucfirst($value);
   }
 }
