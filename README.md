@@ -9,7 +9,7 @@ Single Table Inheritance
 [![License](https://poser.pugx.org/nanigans/single-table-inheritance/license.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
 [![Dependency Status](https://www.versioneye.com/php/nanigans:single-table-inheritance/badge.svg)](https://www.versioneye.com/php/nanigans:single-table-inheritance)
 
-Single Table Inheritance is a trait for Laravel 4.2+ Eloquent models that allows multiple models to be stored in the same database table. We support a few key featres
+Single Table Inheritance is a trait for Laravel 5.1+ Eloquent models that allows multiple models to be stored in the same database table. We support a few key features
 
  * Implemented as a Trait so that it plays nice with others, such as Laravel's `SoftDeletingTrait` or the excellent [Validating](https://github.com/dwightwatson/validating), without requiring a complicated mess of Eloquent Model subclasses.
  * Allow arbitrary class hierarchies not just two-level parent-child relationships. 
@@ -23,18 +23,18 @@ Single Table Inheritance is a trait for Laravel 4.2+ Eloquent models that allows
 Simply add the package to your `composer.json` file and run `composer update`.
 
 ```
-"nanigans/single-table-inheritance": "0.3.*"
+"nanigans/single-table-inheritance": "0.5.*"
 ```
 
 Or go to your project directory where the `composer.json` file is located and type:
 
 ```sh
-composer require "nanigans/single-table-inheritance:0.3.*"
+composer require "nanigans/single-table-inheritance:0.5.*"
 ```
 
 # Overview
 
-Getting started with the Single Tabe Inheritance Trait is simple. Add the constraint and add a few properties to your models. A complete example of a `Vehicle` super class with two subclasses `Truck` and `Car` is given by 
+Getting started with the Single Table Inheritance Trait is simple. Add the constraint and add a few properties to your models. A complete example of a `Vehicle` super class with two subclasses `Truck` and `Car` is given by
 
 ```php
 use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
@@ -61,14 +61,14 @@ class Truck extends Vehicle
 }
 ```
 
-There are four requred properties to be defined in your classes:
+There are four required properties to be defined in your classes:
 
 ### Define the database table
 In the root model set the `protected` property `$table` to define which database table to use to store all your classes.  
 *Note:* even if you are using the default for the root class (i.e. the 'vehicles' table for the `Vehicle` class) this is required so that subclasses inherit the same setting rather than defaulting to their own table name.
 
-### Define the databse column to store the class type
-In the root model set the `protected static` proerty `$singleTableTypeField` to define which database column to use to store the type of each class.
+### Define the database column to store the class type
+In the root model set the `protected static` property `$singleTableTypeField` to define which database column to use to store the type of each class.
 
 ### Define the subclasses
 In the root model and each branch model define the `protected static` property `$singleTableSubclasses` to define which subclasses are part of the classes hierarchy.
@@ -117,9 +117,9 @@ class Bike extends Vehicle
 }
 ```
 
-## Defining Which Atttributes Are Persisted
+## Defining Which Attributes Are Persisted
 
-Eloquent is extremly lenient in allowing you to get and set attributes. There is no mechanism to declare the set of attributes that a model supports. If you misues and attribute it typically results in a SQL error if you try to issue an insert or update for a column that doesn't exist. By default the SingleTableInheritanceTrait opperates the same way. However, when storing a class hierarchy in a single table there are often database columns that don't apply to all classes in the heirarchy. That Eloquent will store values in those columns makes it considerably easier to write bugs. There, the SingleTableInheritanceTrait allows you to define which attributes are persisted. The set of persisted attributes is also inherited from parent classes.
+Eloquent is extremely lenient in allowing you to get and set attributes. There is no mechanism to declare the set of attributes that a model supports. If you misuse and attribute it typically results in a SQL error if you try to issue an insert or update for a column that doesn't exist. By default the SingleTableInheritanceTrait operates the same way. However, when storing a class hierarchy in a single table there are often database columns that don't apply to all classes in the hierarchy. That Eloquent will store values in those columns makes it considerably easier to write bugs. There, the SingleTableInheritanceTrait allows you to define which attributes are persisted. The set of persisted attributes is also inherited from parent classes.
 
 ```php
 class Vehicle extends Eloquent
@@ -133,15 +133,15 @@ class MotorVehicle extends Vehicle
 }
 ```
 
-In the above example the class `Vehicle` would persiste the attribute `color` and the class `MotorVehicle` would persiste both `color` and `fuel`.
+In the above example the class `Vehicle` would persist the attribute `color` and the class `MotorVehicle` would persist both `color` and `fuel`.
 
 ### Automatically Persisted Attributes
 
-For convineience the model primary key and any dates are automatically added to the list of persisted attributes.
+For convenience the model primary key and any dates are automatically added to the list of persisted attributes.
 
 ### BelongsTo Relations
 
-If you are restricting the persisted attribute and yoru model has BelongsTo relations then you must include the foreign key column of the BelongsTo relation. For example:
+If you are restricting the persisted attribute and your model has BelongsTo relations then you must include the foreign key column of the BelongsTo relation. For example:
 
 ```php
 class Vehicle extends Eloquent
@@ -159,12 +159,12 @@ Unfortunately there is no efficient way to automatically detect BelongsTo foreig
 
 ### Throwing Exceptions for Invalid Attributes
 
-BY default the SingleTableINheritanceTrait will handle invalid attributes silently It ignores non-persisted attributes when a model is saved and ignores non-persisted columns when hydrating a model from a builder query. However, you can force exceptions to be thrown when invalid attributes are encounted in either situation by setting the `$throwInvalidAttributeExceptions` property to true.
+BY default the SingleTableInheritanceTrait will handle invalid attributes silently It ignores non-persisted attributes when a model is saved and ignores non-persisted columns when hydrating a model from a builder query. However, you can force exceptions to be thrown when invalid attributes are encountered in either situation by setting the `$throwInvalidAttributeExceptions` property to true.
 
 ```php
 /**
  * Whether the model should throw an InvalidAttributesException if non-persisted 
- * attributes are encoutered when saving or hydrating a model.
+ * attributes are encountered when saving or hydrating a model.
  * If not set, it will default to false.
  *
  * @var boolean
@@ -174,9 +174,9 @@ protected static $throwInvalidAttributeExceptions = true;
 
 # Inspiration 
 
-We've choosen a very particualr implementaton to support single table inheritence. However, others have written code and articles around a general approach that proved influential.
+We've chosen a very particular implementation to support single table inheritance. However, others have written code and articles around a general approach that proved influential.
 
-First, Mark Smith has an excellent article [Single Table Inheritance in Laravel 4](http://www.colorfultyping.com/single-table-inheritance-in-laravel-4/) amognst other things is intorduces the importance of querries returning objects of the correct type. Second, Jacopo Beschi wrote and extension of Eloquent's `Model`, [Laravel-Single-Table-Inheritance](https://github.com/intrip/laravel-single-table-inheritance)`, that introduces the importance of being able to define which attributes each model persists.
+First, Mark Smith has an excellent article [Single Table Inheritance in Laravel 4](http://www.colorfultyping.com/single-table-inheritance-in-laravel-4/) amongst other things is introduces the importance of queries returning objects of the correct type. Second, Jacopo Beschi wrote and extension of Eloquent's `Model`, [Laravel-Single-Table-Inheritance](https://github.com/intrip/laravel-single-table-inheritance)`, that introduces the importance of being able to define which attributes each model persists.
 
 The use of Traits was heavy influence by the Eloquent's `SoftDeletingTrait` and the excellent [Validating Trait](https://github.com/dwightwatson/validating). 
 
