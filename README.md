@@ -47,7 +47,7 @@ class Vehicle extends Eloquent
 
   protected static $singleTableTypeField = 'type';
 
-  protected static $singleTableSubclasses = ['Car', 'Truck'];
+  protected static $singleTableSubclasses = [Car::class, Truck::class];
 }
 
 class Car extends Vehicle
@@ -93,12 +93,12 @@ class Vehicle extends Eloquent
 
   protected static $singleTableTypeField = 'type';
 
-  protected static $singleTableSubclasses = ['MotorVehicle', 'Bike'];
+  protected static $singleTableSubclasses = [MotorVehicle::class, Bike::class];
 }
 
 class MotorVehicle extends Vehicle
 {
-  protected static $singleTableSubclasses = ['Car', 'Truck'];
+  protected static $singleTableSubclasses = [Car::class, Truck::class];
 }
 
 class Car extends MotorVehicle
