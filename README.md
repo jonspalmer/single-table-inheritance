@@ -39,7 +39,7 @@ Getting started with the Single Table Inheritance Trait is simple. Add the const
 ```php
 use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
 
-class Vehicle extends Eloquent
+class Vehicle extends Model
 {
   use SingleTableInheritanceTrait;
 
@@ -85,7 +85,7 @@ It's not uncommon to have many levels in your class hierarchy. Its easy to defin
 ```php
 use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
 
-class Vehicle extends Eloquent
+class Vehicle extends Model
 {
   use SingleTableInheritanceTrait;
 
@@ -122,7 +122,7 @@ class Bike extends Vehicle
 Eloquent is extremely lenient in allowing you to get and set attributes. There is no mechanism to declare the set of attributes that a model supports. If you misuse and attribute it typically results in a SQL error if you try to issue an insert or update for a column that doesn't exist. By default the SingleTableInheritanceTrait operates the same way. However, when storing a class hierarchy in a single table there are often database columns that don't apply to all classes in the hierarchy. That Eloquent will store values in those columns makes it considerably easier to write bugs. There, the SingleTableInheritanceTrait allows you to define which attributes are persisted. The set of persisted attributes is also inherited from parent classes.
 
 ```php
-class Vehicle extends Eloquent
+class Vehicle extends Model
 {
   protected static $persisted = ['color']
 }
@@ -144,7 +144,7 @@ For convenience the model primary key and any dates are automatically added to t
 If you are restricting the persisted attribute and your model has BelongsTo relations then you must include the foreign key column of the BelongsTo relation. For example:
 
 ```php
-class Vehicle extends Eloquent
+class Vehicle extends Model
 {
   protected static $persisted = ['color', 'owner_id'];
   
