@@ -8,6 +8,10 @@ use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
 
+use Nanigans\SingleTableInheritance\Tests\Fixtures\Video;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\VideoType;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video;
+
 /**
  * Class SingleTableInheritanceTraitModelMethodsTest
  *
@@ -101,6 +105,11 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     });
 
     $this->assertEquals('car', $car->getAttributes()['discriminator']);
+  }
+  
+  public function testSetSingleTableTypeWithEnum() {
+    $video = new MP4Video();
+    $video->setSingleTableType();
   }
 
   /**
@@ -197,6 +206,16 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     $this->assertNull($newVehicle->cruft);
   }
 
+  public function testNewFromBuilderWithEnum() {
+    $video = new Video;
+    $attr = new \stdClass();
+    $attr->type = VideoType::MP4;
+
+    $newVideo = $video->newFromBuilder($attr);
+
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video', $newVideo);
+  }
+  
   /**
    * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
    */
