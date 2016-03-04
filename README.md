@@ -9,7 +9,7 @@ Single Table Inheritance
 [![License](https://poser.pugx.org/nanigans/single-table-inheritance/license.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
 [![Dependency Status](https://www.versioneye.com/php/nanigans:single-table-inheritance/badge.svg)](https://www.versioneye.com/php/nanigans:single-table-inheritance)
 
-Single Table Inheritance is a trait for Laravel 5.1+ Eloquent models that allows multiple models to be stored in the same database table. We support a few key features
+Single Table Inheritance is a trait for Laravel 5.2+ Eloquent models that allows multiple models to be stored in the same database table. We support a few key features
 
  * Implemented as a Trait so that it plays nice with others, such as Laravel's `SoftDeletingTrait` or the excellent [Validating](https://github.com/dwightwatson/validating), without requiring a complicated mess of Eloquent Model subclasses.
  * Allow arbitrary class hierarchies not just two-level parent-child relationships. 
@@ -23,13 +23,13 @@ Single Table Inheritance is a trait for Laravel 5.1+ Eloquent models that allows
 Simply add the package to your `composer.json` file and run `composer update`.
 
 ```
-"nanigans/single-table-inheritance": "0.5.*"
+"nanigans/single-table-inheritance": "0.6.*"
 ```
 
 Or go to your project directory where the `composer.json` file is located and type:
 
 ```sh
-composer require "nanigans/single-table-inheritance:0.5.*"
+composer require "nanigans/single-table-inheritance:0.6.*"
 ```
 
 # Overview
