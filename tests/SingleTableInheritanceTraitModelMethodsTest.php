@@ -79,13 +79,13 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
   // getSingleTableTypes
 
   public function testGetSingleTableTypesOfRoot() {
-    $types = ['motorvehicle', 'car', 'truck', 'bike'];
+    $types = ['motorvehicle', 'bike', 'car', 'taxi', 'truck'];
 
     $this->assertEquals($types, (new Vehicle)->getSingleTableTypes());
   }
 
   public function testGetTypeMapOfChild() {
-    $types = ['motorvehicle', 'car', 'truck'];
+    $types = ['motorvehicle', 'car', 'taxi', 'truck'];
 
     $this->assertEquals($types, (new MotorVehicle())->getSingleTableTypes());
   }

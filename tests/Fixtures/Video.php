@@ -15,7 +15,7 @@ class Video extends Eloquent {
   protected static $singleTableTypeField = 'type';
 
   protected static $singleTableSubclasses = [
-    'Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video'
+    VideoType::MP4 => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video'
   ];
 }
 

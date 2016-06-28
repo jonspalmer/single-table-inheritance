@@ -17,8 +17,8 @@ class Vehicle extends Eloquent {
   protected static $persisted = ['color', 'owner_id'];
 
   protected static $singleTableSubclasses = [
-    'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
-    'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike'
+    'motorvehicle' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
+    'bike' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike'
   ];
 
   public function owner() {
