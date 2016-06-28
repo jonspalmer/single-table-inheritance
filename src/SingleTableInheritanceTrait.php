@@ -2,6 +2,7 @@
 
 namespace Nanigans\SingleTableInheritance;
 
+use ReflectionClass;
 use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
 use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException;
 
@@ -49,25 +50,43 @@ trait SingleTableInheritanceTrait {
       return self::$singleTableTypeMap[$calledClass];
     }
 
+    $typeMap = self::getClassTypeMap($calledClass);
+    self::$singleTableTypeMap[$calledClass] = $typeMap[$calledClass];
+
+    return self::$singleTableTypeMap[$calledClass];
+  }
+
+  /**
+   * Get the map of type field values for a specific class.
+   *
+   * @param  string $class class
+   * @return array the type map
+   */
+  protected static function getClassTypeMap($class) {
+    $reflection = new ReflectionClass($class);
+    $property = $reflection->getProperty('singleTableSubclasses');
+
     $typeMap = [];
 
-    // Check if the calledClass is a leaf of the hierarchy. singleTableSubclasses will be inherited from the parent class
-    // so its important we check for the tableType first otherwise we'd infinitely recurse.
-    if (property_exists($calledClass, 'singleTableType')) {
-      $classType = static::$singleTableType;
-      $typeMap[$classType] = $calledClass;
-    }
-    if (property_exists($calledClass, 'singleTableSubclasses')) {
-      $subclasses = static::$singleTableSubclasses;
-      // prevent infinite recursion if the singleTableSubclasses is inherited
-      if (!in_array($calledClass, $subclasses)) {
-        foreach ($subclasses as $subclass) {
-          $typeMap = array_merge($typeMap, $subclass::getSingleTableTypeMap());
-        }
-      }
-    }
+    $subclasses = $class::$singleTableSubclasses;
+    // Type defines child types
+    if ($property->class === $class) {
 
-    self::$singleTableTypeMap[$calledClass] = $typeMap;
+      $key = array_search($class, self::$singleTableSubclasses);
+      if ($key) {
+        $typeMap[$class] = array_merge([ $key => $class ], $subclasses);
+      } else {
+        $typeMap[$class] = $subclasses;
+      }
+
+      foreach ($subclasses as $subclass) {
+        $subclassTypeMap = self::getClassTypeMap($subclass);
+        $typeMap[$class] = array_merge($typeMap[$class], $subclassTypeMap[$subclass]);
+      }
+    } else {
+      $key = array_search($class, $subclasses);
+      $typeMap[$class][$key] = $subclasses[$key];
+    }
 
     return $typeMap;
   }
@@ -150,7 +169,17 @@ trait SingleTableInheritanceTrait {
    */
   public function setSingleTableType() {
     $modelClass = get_class($this);
-    $classType = property_exists($modelClass, 'singleTableType') ? $modelClass::$singleTableType : null;
+
+    $classType = null;
+    foreach (static::$singleTableTypeMap as $model) {
+      foreach ($model as $key => $child) {
+        if ($child === $modelClass) {
+          $classType = $key;
+          break;
+        }
+      }
+    }
+
     if ($classType !== null) {
       if ($this->hasGetMutator(static::$singleTableTypeField)) {
         $this->{static::$singleTableTypeField} = $this->mutateAttribute(static::$singleTableTypeField, $classType);
@@ -161,7 +190,7 @@ trait SingleTableInheritanceTrait {
       // We'd like to be able to declare non-leaf classes in the hierarchy as abstract so they can't be instantiated and saved.
       // However, Eloquent expects to instantiate classes at various points. Therefore throw an exception if we try to save
       // and instance that doesn't have a type.
-      throw new SingleTableInheritanceException('Cannot save Single table inheritance model without declaring static property $singleTableType.');
+      throw new SingleTableInheritanceException('Cannot save Single table inheritance model without declaring the model type.');
     }
   }
 
