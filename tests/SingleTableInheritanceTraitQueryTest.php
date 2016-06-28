@@ -4,6 +4,7 @@ namespace Nanigans\SingleTableInheritance\Tests;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
@@ -204,5 +205,19 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
     $dbCar = Vehicle::where('color', 'red')->first();
     $dbCar->color = 'green';
     $this->assertTrue($dbCar->save()); // if the scope doesn't remove bindings this save will throw an exception.
+  }
+
+  public function testTypedModelLoadedFromRelationship() {
+    $user = new User();
+    $user->name = 'Vehicle Owner';
+    $user->save();
+
+    $user->vehicles()->save(new Car());
+    $user->vehicles()->save(new Bike());
+
+    $user = User::with('vehicles')->where('id', $user->id)->first();
+    $this->assertCount(2, $user->vehicles);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $user->vehicles[0]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Bike', $user->vehicles[1]);
   }
 } 
