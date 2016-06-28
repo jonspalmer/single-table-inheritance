@@ -47,17 +47,18 @@ class Vehicle extends Model
 
   protected static $singleTableTypeField = 'type';
 
-  protected static $singleTableSubclasses = [Car::class, Truck::class];
+  protected static $singleTableSubclasses = [
+    'car'   => Car::class,
+    'truck' => Truck::class
+  ];
 }
 
 class Car extends Vehicle
 {
-  protected static $singleTableType = 'car';
 }
 
 class Truck extends Vehicle
 {
-  protected static $singleTableType = 'truck';
 }
 ```
 
@@ -72,9 +73,6 @@ In the root model set the `protected static` property `$singleTableTypeField` to
 
 ### Define the subclasses
 In the root model and each branch model define the `protected static` property `$singleTableSubclasses` to define which subclasses are part of the classes hierarchy.
-
-### Define the values for class type 
-In each concrete class set the `protected static` property `$singleTableType` to define the string value for this class that will be stored in the `$singleTableTypeField` database column.
 
 
 
@@ -93,27 +91,30 @@ class Vehicle extends Model
 
   protected static $singleTableTypeField = 'type';
 
-  protected static $singleTableSubclasses = [MotorVehicle::class, Bike::class];
+  protected static $singleTableSubclasses = [
+    'motorvehicle' => MotorVehicle::class,
+    'bike'         => Bike::class
+  ];
 }
 
 class MotorVehicle extends Vehicle
 {
-  protected static $singleTableSubclasses = [Car::class, Truck::class];
+  protected static $singleTableSubclasses = [
+    'car'   => Car::class,
+    'truck' => Truck::class
+  ];
 }
 
 class Car extends MotorVehicle
 {
-  protected static $singleTableType = 'car';
 }
 
 class Truck extends MotorVehicle
 {
-  protected static $singleTableType = 'truck';
 }
 
 class Bike extends Vehicle
 {
-  protected static $singleTableType = 'bike';
 }
 ```
 
