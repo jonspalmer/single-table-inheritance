@@ -10,6 +10,10 @@ use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Truck;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
 
+use Nanigans\SingleTableInheritance\Tests\Fixtures\Fruit;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\Apple;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\Banana;
+
 /**
  * Class SingleTableInheritanceTraitQueryTest
  *
@@ -37,6 +41,18 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
     $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[2]);
     $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[3]);
     $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Bike',         $results[4]);
+
+    // integer types
+    (new Apple())->save();
+    (new Banana())->save();
+    (new Banana())->save();
+    
+    $results = Fruit::all();
+    $this->assertEquals(3, count($results));
+
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Apple', $results[0]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Banana',$results[1]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Banana',$results[2]);
   }
 
   public function testQueryingOnChild() {

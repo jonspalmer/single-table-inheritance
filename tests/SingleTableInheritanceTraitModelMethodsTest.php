@@ -12,6 +12,9 @@ use Nanigans\SingleTableInheritance\Tests\Fixtures\Video;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\VideoType;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video;
 
+use Nanigans\SingleTableInheritance\Tests\Fixtures\Fruit;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\FruitType;
+
 /**
  * Class SingleTableInheritanceTraitModelMethodsTest
  *
@@ -243,6 +246,13 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     $attr = new \stdClass();
     $attr->type = 'junk';
     $vehicle->newFromBuilder($attr);
+  }
+  
+  
+  public function testNumericalTypes() {
+    $types = [FruitType::APPLE, FruitType::BANANA]; // integer types
+    
+    $this->assertEquals($types, (new Fruit())->getSingleTableTypes());
   }
 }
 
