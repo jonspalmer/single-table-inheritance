@@ -197,7 +197,8 @@ trait SingleTableInheritanceTrait {
    * @return string the qualified column name
    */
   public function getQualifiedSingleTableTypeColumn() {
-    return $this->getTable() . '.' . static::$singleTableTypeField;
+    // mongodb doesn't work with "table_name"."field" queries; just "field"
+    return $this->getConnection()->getDriverName() === "mongodb" ? static::$singleTableTypeField : $this->getTable() . '.' . static::$singleTableTypeField;
   }
 
   public function setFilteredAttributes(array $attributes) {
