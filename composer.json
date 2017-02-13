@@ -11,8 +11,8 @@
   ],
   "require": {
     "php": ">= 5.5.9",
-    "illuminate/database": "5.2.*|5.3.*",
-    "illuminate/support": "5.2.*|5.3.*"
+    "illuminate/database": "5.2.*|5.3.*|5.4.*",
+    "illuminate/support": "5.2.*|5.3.*|5.4.*"
   },
   "require-dev": {
     "mockery/mockery": "0.9.*",
