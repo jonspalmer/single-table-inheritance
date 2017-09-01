@@ -2,8 +2,7 @@
 
 namespace Nanigans\SingleTableInheritance\Tests;
 
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\File;
+use Illuminate\Contracts\Auth\Authenticatable;
 use \Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase {
@@ -15,10 +14,11 @@ abstract class TestCase extends OrchestraTestCase {
     parent::setUp();
 
     // migrations only for testing purpose
-    \Artisan::call('migrate', array(
-      			'--path' => '../tests/migrations',
-      			'--database' => 'testbench',
-      		));
+    $this->loadMigrationsFrom(array(
+        '--database' => 'testbench',
+        '--realpath' => __DIR__ . '/migrations'
+    ));
+
 
     // Laravel is dumb. It calls boot only for the first test but wipes out the observers for others
     // So we call boot ourselves to make event observing work.
@@ -61,5 +61,32 @@ abstract class TestCase extends OrchestraTestCase {
       'database' => ':memory:',
       'prefix'   => '',
     ));
+  }
+
+  /**
+   * Get package providers.
+   *
+   * @param  \Illuminate\Foundation\Application  $app
+   *
+   * @return array
+   */
+  protected function getPackageProviders($app)
+  {
+    return [
+      \Orchestra\Database\ConsoleServiceProvider::class,
+    ];
+  }
+
+  /**
+   * Set the currently logged in user for the application.
+   *
+   * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+   * @param  string                                     $driver
+   *
+   * @return void
+   */
+  public function be(Authenticatable $user, $driver = null)
+  {
+    //
   }
 }
