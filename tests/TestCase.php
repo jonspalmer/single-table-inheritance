@@ -2,7 +2,6 @@
 
 namespace Nanigans\SingleTableInheritance\Tests;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use \Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase {
@@ -75,18 +74,5 @@ abstract class TestCase extends OrchestraTestCase {
     return [
       \Orchestra\Database\ConsoleServiceProvider::class,
     ];
-  }
-
-  /**
-   * Set the currently logged in user for the application.
-   *
-   * @param  \Illuminate\Contracts\Auth\Authenticatable $user
-   * @param  string                                     $driver
-   *
-   * @return void
-   */
-  public function be(Authenticatable $user, $driver = null)
-  {
-    //
   }
 }
