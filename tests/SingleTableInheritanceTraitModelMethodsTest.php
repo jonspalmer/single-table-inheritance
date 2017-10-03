@@ -195,6 +195,8 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     $newVehicle = $vehicle->newFromBuilder([
       'type' => 'car'
     ]);
+
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $newVehicle);
   }
 
   public function testNewFromBuilder() {
