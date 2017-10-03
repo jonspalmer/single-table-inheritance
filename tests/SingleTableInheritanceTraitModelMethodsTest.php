@@ -190,6 +190,13 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
 
   // newFromBuilder
 
+  public function testNewFromBuilderWithArray() {
+    $vehicle = new Vehicle();
+    $newVehicle = $vehicle->newFromBuilder([
+      'type' => 'car'
+    ]);
+  }
+
   public function testNewFromBuilder() {
     $vehicle = new Vehicle;
     $attr = new \stdClass();
