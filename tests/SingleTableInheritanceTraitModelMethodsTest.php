@@ -190,13 +190,33 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
 
   // newFromBuilder
 
-  public function testNewFromBuilder() {
+  public function testNewFromBuilderWithArray() {
+    $vehicle = new Vehicle();
+    $newVehicle = $vehicle->newFromBuilder([
+      'type' => 'car'
+    ]);
+
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $newVehicle);
+  }
+
+  public function testNewFromBuilderWithObject() {
     $vehicle = new Vehicle;
     $attr = new \stdClass();
     $attr->type = 'car';
-    $attr->fuel = 'diesel';
-    $attr->color = 'red';
-    $attr->cruft = 'junk';
+
+    $newVehicle = $vehicle->newFromBuilder($attr);
+
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Car', $newVehicle);
+  }
+
+  public function testNewFromBuilder() {
+    $vehicle = new Vehicle;
+    $attr = [
+      'fuel' => 'diesel',
+      'color' => 'red',
+      'cruft' => 'junk',
+      'type' => 'car'
+    ];
 
     $newVehicle = $vehicle->newFromBuilder($attr);
 
@@ -208,8 +228,9 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
 
   public function testNewFromBuilderWithEnum() {
     $video = new Video;
-    $attr = new \stdClass();
-    $attr->type = VideoType::MP4;
+    $attr = [
+      'type' => VideoType::MP4
+    ];
 
     $newVideo = $video->newFromBuilder($attr);
 
@@ -221,8 +242,7 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
    */
   public function testNewFromBuilderThrowsIfClassTypeIsUndefined() {
     $vehicle = new Vehicle;
-    $attr = new \stdClass();
-    $vehicle->newFromBuilder($attr);
+    $vehicle->newFromBuilder();
   }
 
   /**
@@ -230,8 +250,9 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
    */
   public function testNewFromBuilderThrowsIfClassTypeIsNull() {
     $vehicle = new Vehicle;
-    $attr = new \stdClass();
-    $attr->type = null;
+    $attr = [
+      'type' => null
+    ];
     $vehicle->newFromBuilder($attr);
   }
 
@@ -240,8 +261,9 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
    */
   public function testNewFromBuilderThrowsIfClassTypeIsUnrecognized() {
     $vehicle = new Vehicle;
-    $attr = new \stdClass();
-    $attr->type = 'junk';
+    $attr = [
+      'type' => 'junk'
+    ];
     $vehicle->newFromBuilder($attr);
   }
 }
