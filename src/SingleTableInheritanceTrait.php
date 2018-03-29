@@ -140,7 +140,7 @@ trait SingleTableInheritanceTrait {
    * Get the list of all types in the hierarchy.
    * @return array the list of type strings
    */
-  public function getSingleTableTypes() {
+  public static function getSingleTableTypes() {
     return array_keys(static::getSingleTableTypeMap());
   }
 
