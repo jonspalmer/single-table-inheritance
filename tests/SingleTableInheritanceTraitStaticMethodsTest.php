@@ -2,10 +2,10 @@
 
 namespace Nanigans\SingleTableInheritance\Tests;
 
-use Illuminate\Support\Facades\DB;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\Video;
 
 /**
  * Class SingleTableInheritanceTraitStaticMethodsTest
@@ -47,6 +47,15 @@ class SingleTableInheritanceTraitStaticMethodsTest extends TestCase {
     ];
 
     $this->assertEquals($expectedSubclassTypes, Car::getSingleTableTypeMap());
+  }
+
+  public function testGetTypeMapOfRootHavingIntegerType() {
+    $expectedSubclassTypes = [
+      1 => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video',
+      2 => 'Nanigans\SingleTableInheritance\Tests\Fixtures\WMVVideo',
+    ];
+
+    $this->assertEquals($expectedSubclassTypes, Video::getSingleTableTypeMap());
   }
 
   // getAllPersistedAttributes

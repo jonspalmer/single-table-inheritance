@@ -15,11 +15,12 @@ class Video extends Eloquent {
   protected static $singleTableTypeField = 'type';
 
   protected static $singleTableSubclasses = [
-    'Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video'
+    'Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video',
+    'Nanigans\SingleTableInheritance\Tests\Fixtures\WMVVideo',
   ];
 }
 
 class VideoType{
-    const MP4 = 0;
-    const WMV = 1;
+  const MP4 = 1;
+  const WMV = 2;
 }
