@@ -57,6 +57,21 @@ class SingleTableInheritanceTraitQueryTest extends TestCase {
     $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[3]);
   }
 
+    public function testQueryingOnChildOfChild() {
+        (new MotorVehicle())->save();
+        (new Car())->save();
+        (new Truck())->save();
+        (new Truck())->save();
+        (new Bike())->save();
+
+        $results = Truck::all();
+
+        $this->assertEquals(2, count($results));
+
+        $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[0]);
+        $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',        $results[1]);
+    }
+
   public function testQueryingOnLeaf() {
 
     (new MotorVehicle())->save();
