@@ -182,6 +182,7 @@ trait SingleTableInheritanceTrait {
         $instance = (new $class)->newInstance([], true);
         $instance->setFilteredAttributes($attributes);
         $instance->setConnection($connection ?: $this->connection);
+        $instance->fireModelEvent('retrieved', false);
         return $instance;
       } else {
         // Throwing either of the exceptions suggests something has gone very wrong with the Global Scope
