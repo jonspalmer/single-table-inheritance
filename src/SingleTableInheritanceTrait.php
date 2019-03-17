@@ -181,7 +181,7 @@ trait SingleTableInheritanceTrait {
         $class = $childTypes[$classType];
         $instance = (new $class)->newInstance([], true);
         $instance->setFilteredAttributes($attributes);
-        $instance->setConnection($connection ?: $this->connection);
+        $instance->setConnection($connection ?: $this->getConnectionName());
         $instance->fireModelEvent('retrieved', false);
         return $instance;
       } else {
