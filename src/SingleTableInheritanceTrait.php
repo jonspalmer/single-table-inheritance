@@ -206,6 +206,7 @@ trait SingleTableInheritanceTrait {
 
   public function setFilteredAttributes(array $attributes) {
     $persistedAttributes = $this->getPersistedAttributes();
+    $persistedAttributes += $this->getPivotAttributeNames($attributes);
     if (empty($persistedAttributes)) {
       $filteredAttributes = $attributes;
     } else {
@@ -223,6 +224,11 @@ trait SingleTableInheritanceTrait {
     }
 
     $this->setRawAttributes($filteredAttributes, true);
+  }
+
+  protected function getPivotAttributeNames($attributes)
+  {
+    return array_filter(array_keys($attributes), function($key) { return starts_with($key, 'pivot_'); });
   }
 
   protected function getThrowInvalidAttributeExceptions() {
