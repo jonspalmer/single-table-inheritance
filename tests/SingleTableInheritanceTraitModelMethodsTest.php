@@ -232,23 +232,12 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\MP4Video', $newVideo);
   }
   
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
-   */
-  public function testNewFromBuilderThrowsIfClassTypeIsUndefined() {
-    $vehicle = new Vehicle;
-    $vehicle->newFromBuilder();
-  }
 
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
-   */
-  public function testNewFromBuilderThrowsIfClassTypeIsNull() {
+  public function testNewFromBuilderDefersToOriginalIfTypeIsUndefined() {
     $vehicle = new Vehicle;
-    $attr = [
-      'type' => null
-    ];
-    $vehicle->newFromBuilder($attr);
+    $fromBuilder = $vehicle->newFromBuilder(['1']);
+
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle', $fromBuilder);
   }
 
   /**

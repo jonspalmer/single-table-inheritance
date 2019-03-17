@@ -185,12 +185,14 @@ trait SingleTableInheritanceTrait {
         $instance->fireModelEvent('retrieved', false);
         return $instance;
       } else {
-        // Throwing either of the exceptions suggests something has gone very wrong with the Global Scope
+        // Something has gone very wrong with the Global Scope
         // There is not graceful recovery so complain loudly.
         throw new SingleTableInheritanceException("Cannot construct newFromBuilder for unrecognized $typeField=$classType");
       }
     } else {
-      throw new SingleTableInheritanceException("Cannot construct newFromBuilder without a value for $typeField");
+      // There are some cases, like Model::pluck('id'), where $attributes does not contain classType
+      // In those situations defer to the original implementation.
+      return parent::newFromBuilder($attributes, $connection);
     }
   }
 

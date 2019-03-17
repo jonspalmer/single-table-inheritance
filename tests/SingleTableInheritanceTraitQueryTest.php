@@ -236,4 +236,33 @@ public function testIgnoreRowsWithMismatchingFieldType() {
     $dbCar->color = 'green';
     $this->assertTrue($dbCar->save()); // if the scope doesn't remove bindings this save will throw an exception.
   }
+
+
+  public function testPluckNonIdProperty() {
+    $redCar = new Car();
+    $redCar->color = 'red';
+    $redCar->save();
+
+    $blueBike = new Bike();
+    $blueBike->color = 'blue';
+    $blueBike->save();
+
+    $carColors = Vehicle::all()->pluck('color');
+
+    $this->assertEquals(['red', 'blue'], $carColors->toArray());
+  }
+
+  public function testPluckId() {
+    $redCar = new Car();
+    $redCar->color = 'red';
+    $redCar->save();
+
+    $blueBike = new Bike();
+    $blueBike->color = 'blue';
+    $blueBike->save();
+
+    $carIds = Vehicle::all()->pluck('id');
+
+    $this->assertEquals([$redCar->id, $blueBike->id], $carIds->toArray());
+  }
 } 
