@@ -5,6 +5,7 @@ namespace Nanigans\SingleTableInheritance\Tests;
 use Illuminate\Support\Facades\DB;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\Listing;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Taxi;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
@@ -106,5 +107,31 @@ class SingleTableInheritanceTraitPersistenceTest extends TestCase {
     $bike->color = 'red';
     $bike->cruft = 'red is my favorite';
     $bike->save();
+  }
+
+  public function testSaveMany() {
+    $bike = new Bike;
+    $bike->color = 'red';
+
+    $blueBike = new Bike;
+    $blueBike->color = 'blue';
+
+    $car = new Car;
+    $car->color = 'pink';
+    $car->fuel = 'gas';
+
+    $listing = new Listing();
+    $listing->name = 'best vehicles 2019';
+    $listing->save();
+
+    $listing->vehicles()->saveMany([$bike, $blueBike, $car]);
+
+    $vehicles = Vehicle::all()->toArray();
+
+    $this->assertEquals(3, count($vehicles));
+    $this->assertEquals(2, count(Bike::all()->toArray()));
+    $this->assertEquals(1, count(Car::all()));
+    $this->assertEquals('pink', Car::all()[0]->color);
+    $this->assertEquals('gas', Car::all()[0]->fuel);
   }
 }
