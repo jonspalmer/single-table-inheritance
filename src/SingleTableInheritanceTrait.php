@@ -206,7 +206,7 @@ trait SingleTableInheritanceTrait {
 
   public function setFilteredAttributes(array $attributes) {
     $persistedAttributes = $this->getPersistedAttributes();
-    $persistedAttributes += $this->getPivotAttributeNames($attributes);
+
     if (empty($persistedAttributes)) {
       $filteredAttributes = $attributes;
     } else {
@@ -219,7 +219,8 @@ trait SingleTableInheritanceTrait {
       if (!empty($extraAttributes) && $this->getThrowInvalidAttributeExceptions()) {
         throw new SingleTableInheritanceInvalidAttributesException("Cannot construct " . get_called_class() . ".", $extraAttributes);
       }
-
+      // Make sure to include all pivot attributes so we hydrate many-to-many relationships correctly
+      $persistedAttributes += $this->getPivotAttributeNames($attributes);
       $filteredAttributes = array_intersect_key($attributes, array_flip($persistedAttributes));
     }
 
