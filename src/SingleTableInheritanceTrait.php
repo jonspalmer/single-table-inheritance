@@ -2,6 +2,8 @@
 
 namespace Nanigans\SingleTableInheritance;
 
+use Illuminate\Events\Dispatcher;
+
 use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
 use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException;
 
@@ -29,6 +31,9 @@ trait SingleTableInheritanceTrait {
    * @return void
    */
   public static function bootSingleTableInheritanceTrait() {
+    if (static::getEventDispatcher() === null) {
+      static::setEventDispatcher(new Dispatcher());
+    }
 
     static::getSingleTableTypeMap();
     static::getAllPersistedAttributes();
