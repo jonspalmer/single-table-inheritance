@@ -2,6 +2,7 @@
 
 namespace Nanigans\SingleTableInheritance;
 
+use Illuminate\Support\Str;
 use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
 use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException;
 
@@ -229,7 +230,7 @@ trait SingleTableInheritanceTrait {
 
   protected function getPivotAttributeNames($attributes)
   {
-    return array_filter(array_keys($attributes), function($key) { return starts_with($key, 'pivot_'); });
+    return array_filter(array_keys($attributes), function($key) { return Str::startsWith($key, 'pivot_'); });
   }
 
   protected function getThrowInvalidAttributeExceptions() {
