@@ -63,6 +63,9 @@ trait SingleTableInheritanceTrait {
       // prevent infinite recursion if the singleTableSubclasses is inherited
       if (!in_array($calledClass, $subclasses)) {
         foreach ($subclasses as $subclass) {
+          if(!is_subclass_of($subclass, $calledClass)) {
+            throw new SingleTableInheritanceException('Subclass must extend its parent class. Parent: '.$calledClass.' | Subclass: '.$subclass);
+          }
           $typeMap = $typeMap + $subclass::getSingleTableTypeMap();
         }
       }
