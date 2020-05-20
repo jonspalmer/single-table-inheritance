@@ -11,6 +11,10 @@ class Vehicle extends Eloquent {
 
   protected $table = "vehicles";
 
+  protected $fillable = [
+      'type'
+  ];
+
   protected static $singleTableTypeField = 'type';
 
   protected static $persisted = ['color', 'owner_id'];

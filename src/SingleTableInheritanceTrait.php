@@ -236,4 +236,18 @@ trait SingleTableInheritanceTrait {
   protected function getThrowInvalidAttributeExceptions() {
     return property_exists(get_called_class(), 'throwInvalidAttributeExceptions') ? static::$throwInvalidAttributeExceptions : false;
   }
+
+  public static function createSubclass(array $attributes) {
+    $type = $attributes[static::$singleTableTypeField];
+    $class = static::getSingleTableTypeMap()[$type];
+    return $class::create($attributes);
+  }
+
+  public static function createManySubclasses(array $records) {
+    $instances = [];
+    foreach ($records as $record) {
+      $instances[] = static::createSubclass($record);
+    }
+    return $instances;
+  }
 }

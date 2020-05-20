@@ -250,6 +250,22 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     ];
     $vehicle->newFromBuilder($attr);
   }
+
+  public function testCreateSubclassMethod() {
+    $bike = Vehicle::createSubclass([
+      'type' => 'bike'
+    ]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Bike', $bike);
+  }
+
+  public function testCreateManySubclassesMethod() {
+    $vehicles = Vehicle::createManySubclasses([
+      ['type' => 'motorvehicle'],
+      ['type' => 'bike'],
+    ]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle', $vehicles[0]);
+    $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Bike', $vehicles[1]);
+  }
 }
 
 
