@@ -5,6 +5,7 @@ namespace Nanigans\SingleTableInheritance;
 use Illuminate\Support\Str;
 use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
 use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException;
+use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceWrongInheritanceException;
 
 trait SingleTableInheritanceTrait {
 
@@ -64,7 +65,7 @@ trait SingleTableInheritanceTrait {
       if (!in_array($calledClass, $subclasses)) {
         foreach ($subclasses as $subclass) {
           if(!is_subclass_of($subclass, $calledClass)) {
-            throw new SingleTableInheritanceException('Subclass must extend its parent class. Parent: '.$calledClass.' | Subclass: '.$subclass);
+            throw new SingleTableInheritanceWrongInheritanceException('Subclass must extend its parent class. Parent: '.$calledClass.' | Subclass: '.$subclass);
           }
           $typeMap = $typeMap + $subclass::getSingleTableTypeMap();
         }

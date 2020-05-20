@@ -2,7 +2,9 @@
 
 namespace Nanigans\SingleTableInheritance\Tests;
 
+use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceWrongInheritanceException;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
+use Nanigans\SingleTableInheritance\Tests\Fixtures\File;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Video;
@@ -77,5 +79,10 @@ class SingleTableInheritanceTraitStaticMethodsTest extends TestCase {
     $a = Car::getAllPersistedAttributes();
     sort($a);
     $this->assertEquals(['capacity', 'color', 'fuel', 'owner_id'], $a);
+  }
+
+  public function testWrongInheritanceException() {
+    $this->expectException(SingleTableInheritanceWrongInheritanceException::class);
+    File::getSingleTableTypeMap();
   }
 } 
