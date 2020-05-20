@@ -24,7 +24,7 @@ class SingleTableInheritanceTraitStaticMethodsTest extends TestCase {
       'car'          => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
       'truck'        => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
       'bike'         => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike',
-
+      'taxi'         => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Taxi',
     ];
 
     $this->assertEquals($expectedSubclassTypes, Vehicle::getSingleTableTypeMap());
@@ -35,6 +35,7 @@ class SingleTableInheritanceTraitStaticMethodsTest extends TestCase {
       'motorvehicle' => 'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
       'car'          => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
       'truck'        => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
+      'taxi'         => 'Nanigans\SingleTableInheritance\Tests\Fixtures\Taxi',
     ];
 
     $this->assertEquals($expectedSubclassTypes, MotorVehicle::getSingleTableTypeMap());
