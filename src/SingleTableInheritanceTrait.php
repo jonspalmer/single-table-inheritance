@@ -65,7 +65,7 @@ trait SingleTableInheritanceTrait {
       if (!in_array($calledClass, $subclasses)) {
         foreach ($subclasses as $subclass) {
           if(!is_subclass_of($subclass, $calledClass)) {
-            throw new SingleTableInheritanceWrongInheritanceException('Subclass must extend its parent class. Parent: '.$calledClass.' | Subclass: '.$subclass);
+            throw new SingleTableInheritanceWrongInheritanceException("Subclass must extend its parent class.", $subclass, $calledClass);
           }
           $typeMap = $typeMap + $subclass::getSingleTableTypeMap();
         }
