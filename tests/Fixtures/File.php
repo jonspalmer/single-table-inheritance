@@ -9,7 +9,7 @@ class File extends Eloquent {
 
     use SingleTableInheritanceTrait;
 
-    protected $table = "audios";
+    protected $table = "files";
 
     protected static $singleTableTypeField = 'type';
 
