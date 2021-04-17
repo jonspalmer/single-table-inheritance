@@ -8,7 +8,7 @@ Single Table Inheritance
 [![Latest Unstable Version](https://poser.pugx.org/nanigans/single-table-inheritance/v/unstable.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
 [![License](https://poser.pugx.org/nanigans/single-table-inheritance/license.svg)](https://packagist.org/packages/nanigans/single-table-inheritance)
 
-Single Table Inheritance is a trait for Laravel 5.2+ Eloquent models that allows multiple models to be stored in the same database table. We support a few key features
+Single Table Inheritance is a trait for Laravel 5.8+ Eloquent models that allows multiple models to be stored in the same database table. We support a few key features
 
  * Implemented as a Trait so that it plays nice with others, such as Laravel's `SoftDeletingTrait` or the excellent [Validating](https://github.com/dwightwatson/validating), without requiring a complicated mess of Eloquent Model subclasses.
  * Allow arbitrary class hierarchies not just two-level parent-child relationships. 
