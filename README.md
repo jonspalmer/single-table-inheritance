@@ -22,13 +22,13 @@ Single Table Inheritance is a trait for Laravel 5.8+ Eloquent models that allows
 Simply add the package to your `composer.json` file and run `composer update`.
 
 ```
-"nanigans/single-table-inheritance": "0.8.*"
+"nanigans/single-table-inheritance": "~1.0"
 ```
 
 Or go to your project directory where the `composer.json` file is located and type:
 
 ```sh
-composer require "nanigans/single-table-inheritance:0.8.*"
+composer require "nanigans/single-table-inheritance:~1.0"
 ```
 
 # Overview
