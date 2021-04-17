@@ -4,6 +4,7 @@ namespace Nanigans\SingleTableInheritance\Tests;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
@@ -208,9 +209,6 @@ public function testIgnoreRowsWithMismatchingFieldType() {
     $this->assertEquals('red is my favorite', $car->cruft);
   }
 
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
-   */
   public function testQueryThrowsExceptionIfConfigured() {
     $now = Carbon::now();
 
@@ -223,6 +221,8 @@ public function testIgnoreRowsWithMismatchingFieldType() {
         'updated_at' => $now
       ]
     ]);
+
+    $this->expectException(SingleTableInheritanceException::class);
 
     Bike::all()->first();
   }

@@ -3,6 +3,8 @@
 namespace Nanigans\SingleTableInheritance\Tests;
 
 use Illuminate\Support\Facades\DB;
+use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
+use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle;
@@ -107,10 +109,9 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     $this->assertEquals('car', $car->getAttributes()['discriminator']);
   }
 
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
-   */
   public function testSetSingleTableTypeThrowExceptionIfTableTypeIsUnset() {
+    $this->expectException(SingleTableInheritanceException::class);
+
     (new Vehicle)->setSingleTableType();
   }
 
@@ -127,12 +128,11 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     $this->assertEquals(['fuel' => 'diesel'], $car->getAttributes());
   }
 
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException
-   */
   public function testFilterPersistedAttributesThrowsIfConfigured() {
     $bike = new Bike;
     $bike->fuel = 'diesel';
+
+    $this->expectException(SingleTableInheritanceInvalidAttributesException::class);
 
     $bike->filterPersistedAttributes();
   }
@@ -162,11 +162,11 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     $this->assertEquals(['fuel' => 'diesel'], $car->getAttributes());
   }
 
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceInvalidAttributesException
-   */
   public function testSetFilteredAttributeshrowsIfConfigured() {
     $bike = new Bike;
+
+    $this->expectException(SingleTableInheritanceInvalidAttributesException::class);
+
     $bike->setFilteredAttributes(['fuel' => 'diesel']);
   }
 
@@ -240,14 +240,14 @@ class SingleTableInheritanceTraitModelMethodsTest extends TestCase {
     $this->assertInstanceOf('Nanigans\SingleTableInheritance\Tests\Fixtures\Vehicle', $fromBuilder);
   }
 
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
-   */
   public function testNewFromBuilderThrowsIfClassTypeIsUnrecognized() {
     $vehicle = new Vehicle;
     $attr = [
       'type' => 'junk'
     ];
+
+    $this->expectException(SingleTableInheritanceException::class);
+
     $vehicle->newFromBuilder($attr);
   }
 }

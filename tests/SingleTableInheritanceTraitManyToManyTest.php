@@ -19,7 +19,7 @@ class SingleTableInheritanceTraitManyToManyTest extends TestCase {
   protected $blueTruck;
   protected $listing;
 
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->redCar = new Car();
     $this->redCar->color = 'red';

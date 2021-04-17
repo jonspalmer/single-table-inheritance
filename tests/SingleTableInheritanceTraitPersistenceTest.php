@@ -3,6 +3,7 @@
 namespace Nanigans\SingleTableInheritance\Tests;
 
 use Illuminate\Support\Facades\DB;
+use Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Bike;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Car;
 use Nanigans\SingleTableInheritance\Tests\Fixtures\Listing;
@@ -21,10 +22,9 @@ use Nanigans\SingleTableInheritance\Tests\Fixtures\User;
  */
 class SingleTableInheritanceTraitPersistenceTest extends TestCase {
 
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
-   */
   public function testSavingThrowsExceptionIfModelHasNoClassType() {
+    $this->expectException(SingleTableInheritanceException::class);
+
     (new Vehicle())->save();
   }
 
@@ -99,13 +99,13 @@ class SingleTableInheritanceTraitPersistenceTest extends TestCase {
     $this->assertEquals('Taxi', $dbTaxi->type);
   }
 
-  /**
-   * @expectedException \Nanigans\SingleTableInheritance\Exceptions\SingleTableInheritanceException
-   */
   public function testSaveThrowsExceptionForInvalidAttributesIfConfigured() {
     $bike = new Bike;
     $bike->color = 'red';
     $bike->cruft = 'red is my favorite';
+
+    $this->expectException(SingleTableInheritanceException::class);
+
     $bike->save();
   }
 
