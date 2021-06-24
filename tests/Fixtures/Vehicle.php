@@ -9,15 +9,21 @@ class Vehicle extends Eloquent {
 
   use SingleTableInheritanceTrait;
 
+  public const TYPE_FIELD = 'type';
+
   protected $table = "vehicles";
 
-  protected static $singleTableTypeField = 'type';
+  protected static $singleTableTypeField = self::TYPE_FIELD;
 
   protected static $persisted = ['color', 'owner_id'];
 
   protected static $singleTableSubclasses = [
     'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
     'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike'
+  ];
+
+  protected $fillable = [
+    self::TYPE_FIELD,
   ];
 
   public function owner() {
