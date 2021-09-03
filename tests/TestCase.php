@@ -28,6 +28,9 @@ abstract class TestCase extends OrchestraTestCase {
       'Nanigans\SingleTableInheritance\Tests\Fixtures\MotorVehicle',
       'Nanigans\SingleTableInheritance\Tests\Fixtures\Car',
       'Nanigans\SingleTableInheritance\Tests\Fixtures\Truck',
+      'Nanigans\SingleTableInheritance\Tests\Fixtures\Publication',
+      'Nanigans\SingleTableInheritance\Tests\Fixtures\Publisher',
+      'Nanigans\SingleTableInheritance\Tests\Fixtures\Book',
       'Nanigans\SingleTableInheritance\Tests\Fixtures\Bike'
     ];
     // Reset each model event listeners.
