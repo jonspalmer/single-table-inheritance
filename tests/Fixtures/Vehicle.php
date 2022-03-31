@@ -66,4 +66,9 @@ class Vehicle extends Eloquent {
   public function setTable($table) {
     $this->table = $table;
   }
+
+  public function newEloquentBuilder($query)
+  {
+      return new VehicleBuilder($query);
+  }
 }
